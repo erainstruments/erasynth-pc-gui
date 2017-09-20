@@ -58,12 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2B671E13E5C8735021841B0A16CFD7D6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_830880AC792D41F3B68732F31EFD3F15"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -85,6 +79,12 @@
         "OwnerKey" = "8:_C8FCC42B248CCAECBB231F609C4F836C"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2B671E13E5C8735021841B0A16CFD7D6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -103,6 +103,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -119,6 +127,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -358,7 +374,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Era Synth Control Panel"
+        "ProductName" = "8:ERASynth Control Panel"
         "ProductCode" = "8:{549DC097-622B-4A9D-A931-07176C331DCF}"
         "PackageCode" = "8:{B8A336AE-7FC5-4294-A10D-38287602C5F0}"
         "UpgradeCode" = "8:{0EE586CF-10F8-4D47-AF8C-5F1A65A13D38}"
@@ -368,14 +384,14 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Era Instruments"
+        "Manufacturer" = "8:ERA Instruments"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Era Synth Control Panel"
+        "Title" = "8:ERASynth Control Panel"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Era"
+        "ARPCONTACT" = "8:ERA"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:Era SynthControl Panel Setup"
+        "ARPCOMMENTS" = "8:ERASynth Control Panel Setup"
         "ARPURLINFOABOUT" = "8:http://erainstruments.com/"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
