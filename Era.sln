@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Era.Synth.Control.Panel", "Era.Synth.Panel\Era.Synth.Control.Panel.csproj", "{FE10F139-FB42-49BE-9876-ED7399C57C3B}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PanelSetup", "PanelSetup\PanelSetup.vdproj", "{4FD2EA34-9641-4D53-B63D-EAD814D9E277}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,14 +33,6 @@ Global
 		{FE10F139-FB42-49BE-9876-ED7399C57C3B}.Release|x64.Build.0 = Release|Any CPU
 		{FE10F139-FB42-49BE-9876-ED7399C57C3B}.Release|x86.ActiveCfg = Release|Any CPU
 		{FE10F139-FB42-49BE-9876-ED7399C57C3B}.Release|x86.Build.0 = Release|Any CPU
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Debug|Any CPU.ActiveCfg = Debug
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Debug|ARM.ActiveCfg = Debug
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Debug|x64.ActiveCfg = Debug
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Debug|x86.ActiveCfg = Debug
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Release|Any CPU.ActiveCfg = Release
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Release|ARM.ActiveCfg = Release
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Release|x64.ActiveCfg = Release
-		{4FD2EA34-9641-4D53-B63D-EAD814D9E277}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

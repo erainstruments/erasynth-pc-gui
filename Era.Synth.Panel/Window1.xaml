@@ -7,336 +7,271 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"      
-        Icon="logo.ico" ResizeMode="NoResize" Title="Era Synth Control Panel" Height="500" Width="900" ShowMaxRestoreButton="False">
-
-    <Grid VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Center" Height="500" Width="900">
-
-        <TabControl Margin="10,25,10,0" TabStripPlacement="Left" x:Name="tabControl">
-
-            <TabItem Header="SETTINGS" Padding="10">
-                <Grid>
-                    <Label Content="Baud Rate" Margin="358,55,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="180"/>
-                    <Label Content="COM Ports" Margin="91,55,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="180"/>
-                    <ComboBox x:Name="uiDeviceList" Margin="91,105,0,0" Controls:TextBoxHelper.ClearTextButton="False" Controls:TextBoxHelper.Watermark="Please select a port " SelectedIndex="0" RenderTransformOrigin="0.496,0.531" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="180" Height="40" SelectionChanged="uiDeviceList_SelectionChanged" />
-
-                    <ComboBox x:Name="uiBaudRate" Margin="358,105,0,0" Controls:TextBoxHelper.Watermark="Please select a port " SelectedIndex="0" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="180" HorizontalContentAlignment="Center" SelectionChanged="uiBaudRate_SelectionChanged">
-                        <ComboBoxItem Content="300" />
-                        <ComboBoxItem Content="1200" />
-                        <ComboBoxItem Content="2400" />
-                        <ComboBoxItem Content="4800" />
-                        <ComboBoxItem Content="9600" />
-                        <ComboBoxItem Content="19200" />
-                        <ComboBoxItem Content="38400" />
-                        <ComboBoxItem Content="57600" />
-                        <ComboBoxItem Content="74880" />
-                        <ComboBoxItem Content="115200" IsSelected="True" />
-                        <ComboBoxItem Content="230400" />
-                        <ComboBoxItem Content="250000" />
-                        <ComboBoxItem Content="500000" />
-                        <ComboBoxItem Content="1000000" />
-                        <ComboBoxItem Content="2000000" />
-                    </ComboBox>
-                    <TextBlock HorizontalAlignment="Left" Margin="318,155,0,0" TextWrapping="Wrap" Text="* Era Synth device's internal rate is 115200. If you select less or bigger value, You may not get proper results" VerticalAlignment="Top" Width="257" FontStyle="Italic" FontWeight="Bold" FontSize="10" RenderTransformOrigin="0.5,0.5" Height="40" TextAlignment="Center" LineHeight="11">
-                        <TextBlock.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform AngleX="1.766"/>
-                                <RotateTransform/>
-                                <TranslateTransform X="0.369"/>
-                            </TransformGroup>
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-
-                    <Button x:Name="uiConnect" Width="253" Margin="187,218,0,0" Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Top" Height="63" Click="uiConnectClick" FontWeight="Bold" />
-                    <Button x:Name="uiReadAll" Width="253" Margin="187,300,0,0" Content="Read All" HorizontalAlignment="Left" VerticalAlignment="Top" Height="63" Click="uiReadAll_Click" FontWeight="Bold" />
-
-
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="CW" Padding="10">
-
-                <Grid>
-                    <Grid.Resources>
-                        <ResourceDictionary>
-                            <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
-                                <Setter Property="OffLabel" Value="False" />
-                                <Setter Property="OnLabel" Value="True" />
-                                <Setter Property="SwitchForeground" Value="Red" />
-                            </Style>
-                            <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
-                                <Setter Property="SwitchForeground" Value="YellowGreen" />
-                            </Style>
-                        </ResourceDictionary>
-                    </Grid.Resources>
-
-                    <Label Content="FREQUENCY" HorizontalAlignment="Left" Margin="106,126,0,0" VerticalAlignment="Top" Height="51" Width="167" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <Label Content="AMPLITUDE" HorizontalAlignment="Left" Margin="391,126,0,0" VerticalAlignment="Top" Width="167" Height="51" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
-                    <Controls:NumericUpDown x:Name="uiRfFrequency" Minimum="0" Interval="1" Width="170" HasDecimals="False" TextAlignment="Left" Margin="106,177,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    <Controls:NumericUpDown x:Name="uiRfAmplitude" HasDecimals="True" IsEnabled="True" IsReadOnly="False" Width="170"  Maximum="20" Interval="0.1" Minimum="-60" TextAlignment="Left" Margin="391,177,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" />
-
-                    <ComboBox  x:Name="uiRfFrequencyType" Margin="275,177,0,0" SelectedIndex="1" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" HorizontalContentAlignment="Center">
-                        <ComboBoxItem Content="GHz" />
-                        <ComboBoxItem Content="MHz" />
-                        <ComboBoxItem Content="KHz" />
-                        <ComboBoxItem Content="Hz" />
-                    </ComboBox>
-
-                    <Button x:Name="uiRfSend" Width="146" Margin="412,257,0,0" Content="Send" HorizontalAlignment="Left" VerticalAlignment="Top" Height="63" Click="uiRfSendClick" />
-
-                    <Controls:ToggleSwitch x:Name="uiRfOnOff" Checked="uiRfOnOffChecked" Unchecked="uiRfOnOffChecked" Width="100" Header="RF ON / OFF" IsChecked="False" ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}" Margin="173,257,407.8,154" />
-                </Grid>
-
-            </TabItem>
-
-            <TabItem Header="SWEEP" Padding="10">
-                <Grid>
-
-                    <Grid.Resources>
-                        <ResourceDictionary>
-                            <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
-                                <Setter Property="OffLabel" Value="False" />
-                                <Setter Property="OnLabel" Value="True" />
-                                <Setter Property="SwitchForeground" Value="Red" />
-                            </Style>
-                            <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
-                                <Setter Property="SwitchForeground" Value="YellowGreen" />
-                            </Style>
-                        </ResourceDictionary>
-                    </Grid.Resources>
-
-                    <Label Content="Start Frequency" HorizontalAlignment="Left" Margin="24,128,0,0" VerticalAlignment="Top" Height="40" Width="243" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                    <Controls:NumericUpDown Width="170"    TextAlignment="Left"      Value="5" Margin="24,168,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiSweepStart" />
-                    <ComboBox HorizontalAlignment="Left" SelectedIndex="2" Margin="192,168,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" Name="uiSweepStartType">
-                        <ComboBoxItem Content="Hz" />
-                        <ComboBoxItem Content="KHz" />
-                        <ComboBoxItem Content="MHz" />
-                        <ComboBoxItem Content="GHz" />
-                    </ComboBox>
-
-
-                    <Label Content="Stop Frequency" HorizontalAlignment="Left" Margin="413,128,0,0" VerticalAlignment="Top" Height="40" Width="243" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                    <Controls:NumericUpDown Width="170"    TextAlignment="Left"      Value="5" Margin="413,168,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiSweepStop" />
-                    <ComboBox HorizontalAlignment="Left" SelectedIndex="2" Margin="581,168,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" Name="uiSweepStopType">
-                        <ComboBoxItem Content="Hz" />
-                        <ComboBoxItem Content="KHz" />
-                        <ComboBoxItem Content="MHz" />
-                        <ComboBoxItem Content="GHz" />
-                    </ComboBox>
-
-
-                    <Label Content="Step Frequency" HorizontalAlignment="Left" Margin="24,246,0,0" VerticalAlignment="Top" Height="40" Width="243" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                    <Controls:NumericUpDown Width="170"    TextAlignment="Left"      Value="5" Margin="24,286,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiSweepStep" />
-                    <ComboBox HorizontalAlignment="Left" SelectedIndex="2" Margin="192,286,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" Name="uiSweepStepType">
-                        <ComboBoxItem Content="Hz" />
-                        <ComboBoxItem Content="KHz" />
-                        <ComboBoxItem Content="MHz" />
-                        <ComboBoxItem Content="GHz" />
-                    </ComboBox>
-
-
-                    <Controls:ToggleSwitch Header="SWEEP ON / OFF" IsChecked="False" ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}" Margin="331,263,215.8,147.6" Name="uiSweepOnOff" Checked="uiSweepOnOff_Checked" Unchecked="uiSweepOnOff_Checked" />
-                    <Button Width="146" Margin="510,263,0,0" Content="Send" HorizontalAlignment="Left" VerticalAlignment="Top" Height="63" Name="uiSweepSend" Click="uiSweepSend_Click" />
-
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="REFERENCE" Padding="10">
-                <Grid>
-                    <Label Content="REFERENCE" HorizontalAlignment="Left" Margin="160,148,0,0" VerticalAlignment="Top" Height="40" Width="187" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                    <ComboBox Margin="160,193,0,0" Height="35" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="187" HorizontalContentAlignment="Center" Name="uiReference">
-                        <ComboBoxItem Content="Internal" />
-                        <ComboBoxItem Content="External" />
-                    </ComboBox>
-                    <Button Width="146" Margin="366,165,0,0" Content="Send" HorizontalAlignment="Left" VerticalAlignment="Top" Height="63" Name="uiReferenceSend" Click="uiReferenceSend_Click" />
-
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="MODULATION" Padding="10">
-                <StackPanel Margin="5 10 0 0">
-                    <Expander Header="_PULSE" IsExpanded="True">
-                        <Grid Height="161" Margin="0,0,0.4,0">
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
-                                        <Setter Property="OffLabel" Value="False" />
-                                        <Setter Property="OnLabel" Value="True" />
-                                        <Setter Property="SwitchForeground" Value="Red" />
-                                    </Style>
-                                    <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
-                                        <Setter Property="SwitchForeground" Value="YellowGreen" />
-                                    </Style>
-                                </ResourceDictionary>
-                            </Grid.Resources>
-
-                            <Label Content="Source" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" Height="30" Margin="20,0,0,0"/>
-                            <Label Content="Pulse Width" HorizontalAlignment="Left" Margin="185,0,0,0" VerticalAlignment="Top" Width="130" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                            <Label Content="Pulse Repetition Period" HorizontalAlignment="Left" Margin="389,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Width="190" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                            <Label Content="Polarity" HorizontalAlignment="Left" Margin="20,86,0,0" VerticalAlignment="Top" Width="130" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-
-                            <Controls:ToggleSwitch Header="PULSE ON / OFF" IsChecked="False" ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}" Margin="243,86,295.6,10" Name="uiModPulseOnOff" Checked="uiModPulseOnOff_Checked" Unchecked="uiModPulseOnOff_Checked" />
-
-                            <Controls:NumericUpDown  Width="130"    TextAlignment="Left"      Value="5" Margin="185,30,0,0" Height="31" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiModPulseWidth" />
-                            <Controls:NumericUpDown  Width="189"    TextAlignment="Left"      Value="5" Margin="389,30,0,0" Height="31" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiModPulsePeriod" />
-
-                            <Button Content="SEND" HorizontalAlignment="Left" Margin="504,97,0,0" VerticalAlignment="Top" Width="118" Height="49" FontWeight="Bold" FontSize="14" Name="uiModPulseSend" Click="uiModPulseSend_Click" />
-
-                            <ComboBox SelectedIndex="0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" HorizontalContentAlignment="Center" Margin="20,30,0,0" Name="uiModPulseSource">
-                                <ComboBoxItem Content="Internal" />
-                                <ComboBoxItem Content="External" />
-                            </ComboBox>
-
-                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" Margin="20,116,0,0" VerticalAlignment="Top" Width="130" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="uiModPulsePolarity">
-                                <ComboBoxItem Content="Normal" />
-                                <ComboBoxItem Content="Inverted" />
-                            </ComboBox>
-
-                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" Margin="313,30,0,0" VerticalAlignment="Top" Width="55" Height="31" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="uiModPulseWidthType">
-                                <ComboBoxItem Content="uS" />
-                                <ComboBoxItem Content="mS" />
-                            </ComboBox>
-
-                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" Margin="577,30,0,0" VerticalAlignment="Top" Width="55" Height="31" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="uiModPulsePeriodType">
-                                <ComboBoxItem Content="uS" />
-                                <ComboBoxItem Content="mS" />
-                            </ComboBox>
-                        </Grid>
-                    </Expander>
-
-                    <Expander Margin="0 10 0 0" Header="_AM">
-                        <Grid Height="161" Margin="0,0,0.4,0">
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
-                                        <Setter Property="OffLabel" Value="False" />
-                                        <Setter Property="OnLabel" Value="True" />
-                                        <Setter Property="SwitchForeground" Value="Red" />
-                                    </Style>
-                                    <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
-                                        <Setter Property="SwitchForeground" Value="YellowGreen" />
-                                    </Style>
-                                </ResourceDictionary>
-                            </Grid.Resources>
-
-                            <Label Content="Source" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" Height="30" Margin="20,0,0,0"/>
-                            <Label Content="Modulation Frequency" HorizontalAlignment="Left" Margin="204,0,0,0" VerticalAlignment="Top" Width="183" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                            <Label Content="Modulation Depth" HorizontalAlignment="Left" Margin="433,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Width="189" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-
-                            <Controls:ToggleSwitch Width="100" Header="AM ON / OFF" IsChecked="False" ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}" Margin="251,86,307,10" Name="uiModAmOnOff" Checked="uiModAmOnOff_Checked"  />
-
-                            <Controls:NumericUpDown  Width="130"    TextAlignment="Left"      Value="5" Margin="204,30,0,0" Height="31" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiModAmFreq" />
-                            <Controls:NumericUpDown  Width="189"    TextAlignment="Left"      Value="5" Margin="433,30,0,0" Height="31" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiModAmDepth" />
-
-                            <Button Content="SEND" HorizontalAlignment="Left" Margin="504,97,0,0" VerticalAlignment="Top" Width="118" Height="49" FontWeight="Bold" FontSize="14" Name="uiModAmSend" Click="uiModAmSend_Click" />
-
-                            <ComboBox SelectedIndex="0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" HorizontalContentAlignment="Center" Margin="20,30,0,0" Name="uiModAmSource">
-                                <ComboBoxItem Content="Internal" />
-                                <ComboBoxItem Content="External" />
-                            </ComboBox>
-
-                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" Margin="332,30,0,0" VerticalAlignment="Top" Width="55" Height="31" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="uiModAmFreqType">
-                                <ComboBoxItem Content="Hz" />
-                                <ComboBoxItem Content="KHz" />
-                            </ComboBox>
-
-
-                            <RadioButton Content="Square"  GroupName="1" Width="74" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="47,108,0,0" Name="uiModAmSquare" />
-                            <RadioButton Content="Triangle"   GroupName="1" Width="74" Height="20" Margin="47,133,542.6,8" Name="uiModAmTriangle" />
-                            <RadioButton Content="Sine" IsChecked="True"  GroupName="1" Width="74" Height="20" Margin="47,82,542.6,59" Name="uiModAmSine" />
-
-                        </Grid>
-                    </Expander>
-
-                    <Expander Margin="0 10 0 0" Header="_FM">
-                        <Grid Height="161" Margin="0,0,0.4,0">
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
-                                        <Setter Property="OffLabel" Value="False" />
-                                        <Setter Property="OnLabel" Value="True" />
-                                        <Setter Property="SwitchForeground" Value="Red" />
-                                    </Style>
-                                    <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
-                                        <Setter Property="SwitchForeground" Value="YellowGreen" />
-                                    </Style>
-                                </ResourceDictionary>
-                            </Grid.Resources>
-
-                            <Label Content="Source" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" Height="30" Margin="20,0,0,0"/>
-                            <Label Content="Modulation Frequency" HorizontalAlignment="Left" Margin="185,0,0,0" VerticalAlignment="Top" Width="183" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-                            <Label Content="Modulation Sensitivity" HorizontalAlignment="Left" Margin="436,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Width="199" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-
-                            <Controls:ToggleSwitch Width="100" Header="FM ON / OFF" IsChecked="False" ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}" Margin="20,81,543.6,15" Name="uiModFmOnOff" Checked="uiModFmOnOff_Checked" Unchecked="uiModFmOnOff_Checked" />
-
-                            <Controls:NumericUpDown  Width="130"    TextAlignment="Left"      Value="5" Margin="185,30,0,0" Height="31" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiModFmFreq" />
-                            <Controls:NumericUpDown  Width="173"    TextAlignment="Left"      Value="5" Margin="429,30,0,0" Height="31" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Name="uiModFmSense" />
-                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" Margin="601,30,0,0" VerticalAlignment="Top" Width="55" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="uiModFmSenseType">
-                                <ComboBoxItem Content="Hz" />
-                                <ComboBoxItem Content="KHz" />
-                            </ComboBox>
-
-
-                            <Button Content="SEND" HorizontalAlignment="Left" Margin="517,97,0,0" VerticalAlignment="Top" Width="118" Height="49" FontWeight="Bold" FontSize="14" Name="uiModFmSend" Click="uiModFmSend_Click" />
-
-                            <ComboBox SelectedIndex="0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" HorizontalContentAlignment="Center" Margin="20,30,0,0" Name="uiModFmSource">
-                                <ComboBoxItem Content="Internal" />
-                                <ComboBoxItem Content="External" />
-                            </ComboBox>
-
-                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" Margin="313,30,0,0" VerticalAlignment="Top" Width="55" Height="31" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="uiModFmFreqType">
-                                <ComboBoxItem Content="Hz" />
-                                <ComboBoxItem Content="KHz" />
-                            </ComboBox>
-
-
-                        </Grid>
-                    </Expander>
-                </StackPanel>
-            </TabItem>
-
-            <TabItem Header="TRIGGER" Padding="10">
-                <Grid>
-                    <ComboBox SelectedIndex="0" Height="37" VerticalAlignment="Top" HorizontalAlignment="Left" Width="139" HorizontalContentAlignment="Center" Margin="139,139,0,0" VerticalContentAlignment="Center" Name="uiTrigSource">
-                        <ComboBoxItem Content="Bus" />
-                        <ComboBoxItem Content="External" />
-                    </ComboBox>
-                    <ComboBox SelectedIndex="0" Height="37" VerticalAlignment="Top" HorizontalAlignment="Left" Width="139" HorizontalContentAlignment="Center" Margin="368,139,0,0" VerticalContentAlignment="Center" Name="uiTrigMode">
-                        <ComboBoxItem Content="Single" />
-                        <ComboBoxItem Content="Continous" />
-                    </ComboBox>
-                    <Label Content="Source" HorizontalAlignment="Left" Margin="138,94,0,0" VerticalAlignment="Top" Height="45" Width="140" FontWeight="Bold" FontSize="16" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <Label Content="Mode" HorizontalAlignment="Left" Margin="367,94,0,0" VerticalAlignment="Top" Width="140" Height="45" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-
-                    <Button Content="SEND" HorizontalAlignment="Left" Margin="263,213,0,0" VerticalAlignment="Top" Width="118" Height="49" FontWeight="Bold" FontSize="14" Name="uiTrigSend" Click="uiTrigSend_Click" />
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="DIAGNOSTICS" Padding="10">
-                <Grid>
-                    <Label Content="Lock Status" HorizontalAlignment="Left" Margin="149,115,0,0" VerticalAlignment="Top" Height="45" Width="115" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14"/>
-                    <Label Content="Temperature" HorizontalAlignment="Left" Margin="167,204,0,0" VerticalAlignment="Top" Height="42" Width="97" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14"/>
-                    <Label Content="Power" HorizontalAlignment="Left" Margin="167,284,0,0" VerticalAlignment="Top" Height="42" Width="97" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14"/>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="40" Margin="264,120,0,0" VerticalAlignment="Top" Width="1"/>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="40" Margin="264,207,0,0" VerticalAlignment="Top" Width="1"/>
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="40" Margin="264,286,0,0" VerticalAlignment="Top" Width="1"/>
-
-                    <TextBox Margin="270,120,212.8,314" VerticalContentAlignment="Center" IsEnabled="False" Text="" Name="uiDiagLock" />
-
-                    <Button Content="{iconPacks:PackIcon {x:Static iconPacks:PackIconMaterialKind.ArrowRightBold}, Width=20, Height=20}" Margin="468,120,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Width="45" Name="uiDiagLockButton" Click="uiDiagLockButton_Click" />
-                    <TextBox Margin="270,207,212.8,227" VerticalContentAlignment="Center" IsEnabled="False" Text="" Name="uiDiagTemp" />
-                    <Button Content="{iconPacks:PackIcon {x:Static iconPacks:PackIconMaterialKind.ArrowRightBold}, Height=20, Width=20}" Margin="468,207,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Width="45" Name="uiDiagTempButton" Click="uiDiagTempButton_Click" />
-                    <TextBox Margin="270,286,212.8,148" VerticalContentAlignment="Center" IsEnabled="False" Text="" Name="uiDiagPower" />
-                    <Button Content="{iconPacks:PackIcon {x:Static iconPacks:PackIconMaterialKind.ArrowRightBold}, Height=20, Width=20}" Margin="468,286,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Width="45" Name="uiDiagPowerButton" Click="uiDiagPowerButton_Click" />
-
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="DEBUG" Padding="10">
-
-            </TabItem>
-
-        </TabControl>
+        Icon="logo.ico" ResizeMode="NoResize" Title="ERASynth" Height="500" Width="969" ShowMaxRestoreButton="False">
+
+    <Grid VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Center" Height="500" Width="969">
+
+        <StackPanel Orientation="Vertical">
+            <Grid>
+                <Label Content="COM Ports" Margin="0,17,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="101"/>
+                <ComboBox x:Name="uiDeviceList" Margin="105,17,0,0" Controls:TextBoxHelper.ClearTextButton="False" Controls:TextBoxHelper.Watermark="Please select a port " SelectedIndex="0" RenderTransformOrigin="0.496,0.531" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="210" Height="35" SelectionChanged="uiDeviceList_SelectionChanged" />
+                <ComboBox x:Name="uiBaudRate" Margin="320,17,0,0" Controls:TextBoxHelper.Watermark="Please select a port " SelectedIndex="0" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" HorizontalContentAlignment="Center" SelectionChanged="uiBaudRate_SelectionChanged">
+                    <ComboBoxItem Content="300" />
+                    <ComboBoxItem Content="1200" />
+                    <ComboBoxItem Content="2400" />
+                    <ComboBoxItem Content="4800" />
+                    <ComboBoxItem Content="9600" />
+                    <ComboBoxItem Content="19200" />
+                    <ComboBoxItem Content="38400" />
+                    <ComboBoxItem Content="57600" />
+                    <ComboBoxItem Content="74880" />
+                    <ComboBoxItem Content="115200" IsSelected="True" />
+                    <ComboBoxItem Content="230400" />
+                    <ComboBoxItem Content="250000" />
+                    <ComboBoxItem Content="500000" />
+                    <ComboBoxItem Content="1000000" />
+                    <ComboBoxItem Content="2000000" />
+                </ComboBox>
+                <Button x:Name="uiConnect" Width="100" Margin="430,17,0,0"  Content="Connect"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Click="uiConnectClick" FontWeight="Bold" />
+                <Button x:Name="uiReadAll" Width="100" Margin="833,17,0,0.8" Content="Read All" HorizontalAlignment="Left" Click="uiReadAll_Click_1" FontWeight="Bold" />
+                <Button x:Name="uiPreset"  Width="100" Margin="720,18,0,-0.2"  Content="Preset"   HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Click="uiPreset_Click" FontWeight="Bold" />
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Margin="10,100,10,0">
+            <TabControl  TabStripPlacement="Left" x:Name="tabControl" Margin="0,0,0.2,0">
+
+                <TabItem Header="HOME" Padding="5">
+
+                    <Grid>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
+                                    <Setter Property="OffLabel" Value="False" />
+                                    <Setter Property="OnLabel" Value="True" />
+                                    <Setter Property="SwitchForeground" Value="Red" />
+                                </Style>
+                                <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
+                                    <Setter Property="SwitchForeground" Value="YellowGreen" />
+                                </Style>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+
+                        <Label Content="FREQUENCY" HorizontalAlignment="Left" Margin="160,131,0,0" VerticalAlignment="Top" Height="51" Width="167" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label Content="AMPLITUDE (dBm)" HorizontalAlignment="Left" Margin="455,131,0,0" VerticalAlignment="Top" Width="228" Height="51" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Controls:NumericUpDown x:Name="uiRfFrequency" Minimum="0" Interval="1" Width="170" HasDecimals="False" TextAlignment="Left" Margin="160,182,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" KeyDown="uiRfFrequency_KeyDown" FontSize="16" FontWeight="Bold" />
+                        <Controls:NumericUpDown x:Name="uiRfAmplitude" HasDecimals="True" IsEnabled="True" IsReadOnly="False" Width="228"  Maximum="20" Interval="0.1" Minimum="-60" TextAlignment="Left" Margin="455,182,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" KeyDown="uiRfAmplitude_KeyDown" FontSize="16" FontWeight="Bold" />
+
+                        <ComboBox  x:Name="uiRfFrequencyType" Margin="329,182,0,0" SelectedIndex="1" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" HorizontalContentAlignment="Center" SelectionChanged="uiRfFrequencyType_SelectionChanged" >
+                            <ComboBoxItem Content="GHz" />
+                            <ComboBoxItem Content="MHz" />
+                            <ComboBoxItem Content="KHz" />
+                            <ComboBoxItem Content="Hz" />
+                        </ComboBox>
+                        <Button x:Name="uiRfOnOff" Width="285" Margin="248,16,0,0" Content="RF OFF" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86" Click="uiRfOnOffClick" FontSize="36" Background="Red" />
+
+                    </Grid>
+
+                </TabItem>
+
+                <TabItem Header="MODULATION" Padding="5">
+                    <Grid>
+
+                        <Button Margin="10,19,0,0"  Content="OFF"        FontSize="48" x:Name="uiModOnOff" Click="uiModOnOff_Click" Background="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="75" />
+                        <Button Margin="193,19,0,0" Content="INTERNAL"   FontSize="20" Width="180" x:Name="uiModInternal" Click="uiModInternal_Click" Background="Green" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" />
+                        <Button Margin="378,19,0,0" Content="EXTERNAL"   FontSize="20" Width="180" x:Name="uiModExternal" Click="uiModExternal_Click" Background="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" />
+                        <Button Margin="562,19,0,0"  Content="MICROPHONE" FontSize="20" Width="180" x:Name="uiModMicro"    Click="uiModMicro_Click" Background="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75"   />
+
+                        <Button Margin="193,99,0,0" Content="AM"    FontSize="20" Width="130" Height="35" x:Name="uiModAm"    Click="uiModAm_Click"   Background="Green" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Button Margin="331,99,0,0" Content="NBFM"  FontSize="20" Width="130" Height="35" x:Name="uiModNbfm"  Click="uiModNbfm_Click" Background="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Button Margin="471,99,0,0" Content="WBFM"  FontSize="20" Width="130" Height="35" x:Name="uiModWbfm"  Click="uiModWbfm_Click" Background="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        <Button Margin="612,99,0,0"  Content="PULSE" FontSize="20" Width="130" Height="35" x:Name="uiModPulse" Click="uiModPulse_Click" Background="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                        <RadioButton Content="TRIANGLE" GroupName="1" Width="84" Height="20" Margin="358,150,0,0" x:Name="uiModTriangle" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="uiModWaveTypeChanged" >
+                            <RadioButton.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </TransformGroup>
+                            </RadioButton.RenderTransform>
+                        </RadioButton>
+
+                        <RadioButton Content="RAMP"   GroupName="1" Width="74" Height="20" Margin="495,150,0,0"  x:Name="uiModRamp" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="uiModWaveTypeChanged" >
+                            <RadioButton.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="1.5" ScaleX="1.5"/>
+                                </TransformGroup>
+                            </RadioButton.RenderTransform>
+                        </RadioButton>
+
+                        <RadioButton Content="SINE"     GroupName="1" Width="75" Height="20" Margin="221,150,0,0"  x:Name="uiModSine" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.64,0.387" Checked="uiModWaveTypeChanged"  >
+                            <RadioButton.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                    <TranslateTransform X="5.25" Y="-1.13"/>
+                                </TransformGroup>
+                            </RadioButton.RenderTransform>
+                        </RadioButton>
+
+                        <RadioButton Content="SQUARE"   GroupName="1" Width="75" Height="20" Margin="643,150,0,0"      x:Name="uiModSquare" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="uiModWaveTypeChanged" >
+                            <RadioButton.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </TransformGroup>
+                            </RadioButton.RenderTransform>
+                        </RadioButton>
+
+                        <Label Content="Am Depth (%)"                       HorizontalAlignment="Left" Margin="525,190,0,0" VerticalAlignment="Top" Height="32" Width="218" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" x:Name="lblModAmDepth"      Visibility="Visible"  />
+                        <Label Content="FM Deviation (Hz)"                  HorizontalAlignment="Left" Margin="525,190,0,0" VerticalAlignment="Top" Height="32" Width="218" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" x:Name="lblModFmDev"        Visibility="Hidden"  />
+                        <Label Content="Internal Modulation Frequency (Hz)" HorizontalAlignment="Left" Margin="193,190,0,0" VerticalAlignment="Top" Height="32" Width="252" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" x:Name="lblModFreq"         Visibility="Visible"  />
+                        <Label Content="Pulse Period"                       HorizontalAlignment="Left" Margin="228,200,0,0" VerticalAlignment="Top" Height="32" Width="215" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" x:Name="lblModPulsePeriod"  Visibility="Hidden" />
+                        <Label Content="Pulse Width"                        HorizontalAlignment="Left" Margin="471,200,0,0" VerticalAlignment="Top" Height="32" Width="215" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" x:Name="lblModPulseWidth"   Visibility="Hidden" />
+
+                        <Controls:NumericUpDown Width="252" TextAlignment="Left" Margin="193,222,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiModFreq"        Visibility="Visible" KeyDown="uiModFreq_KeyDown" />
+                        <Controls:NumericUpDown Width="218" TextAlignment="Left" Margin="525,222,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiModAmDepth"     Visibility="Visible" KeyDown="uiModAmDepth_KeyDown" />
+                        <Controls:NumericUpDown Width="218" TextAlignment="Left" Margin="525,222,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiModFmDev"       Visibility="Hidden" KeyDown="uiModFmDev_KeyDown" />
+                        <Controls:NumericUpDown Width="160" TextAlignment="Left" Margin="471,232,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiModPulseWidth"  Visibility="Hidden" KeyDown="uiModPulseWidth_KeyDown" />
+                        <Controls:NumericUpDown Width="160" TextAlignment="Left" Margin="228,232,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiModPulsePeriod" Visibility="Hidden" KeyDown="uiModPulsePeriod_KeyDown" />
+                        <ComboBox HorizontalAlignment="Left" SelectedIndex="2" Margin="631,232,0,0" VerticalAlignment="Top" Width="55" Height="40" HorizontalContentAlignment="Center" x:Name="uiModPulseWidthUnit" Visibility="Hidden">
+                            <ComboBoxItem Content="s" />
+                            <ComboBoxItem Content="mS" />
+                            <ComboBoxItem Content="uS" />
+                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Left" SelectedIndex="2" Margin="388,232,0,0" VerticalAlignment="Top" Width="55" Height="40" HorizontalContentAlignment="Center" x:Name="uiModPulsePeriodUnit"  Visibility="Hidden">
+                            <ComboBoxItem Content="s" />
+                            <ComboBoxItem Content="mS" />
+                            <ComboBoxItem Content="uS" />
+                        </ComboBox>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="SWEEP" Padding="5">
+                    <Grid>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <Style x:Key="CustomMetroToggleSwitch" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitch}" TargetType="{x:Type Controls:ToggleSwitch}">
+                                    <Setter Property="OffLabel" Value="False" />
+                                    <Setter Property="OnLabel" Value="True" />
+                                    <Setter Property="SwitchForeground" Value="Red" />
+                                </Style>
+                                <Style x:Key="CustomMetroToggleSwitchButton" BasedOn="{StaticResource MahApps.Metro.Styles.ToggleSwitchButton}" TargetType="{x:Type Controls:ToggleSwitchButton}">
+                                    <Setter Property="SwitchForeground" Value="YellowGreen" />
+                                </Style>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+
+                        <Label Content="Start Frequency" HorizontalAlignment="Left" Margin="118,135,0,0"       VerticalAlignment="Top" Height="40" Width="243" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+                        <Label Content="Stop Frequency"  HorizontalAlignment="Left" Margin="418,134,0,0"     VerticalAlignment="Top" Height="40" Width="243" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+                        <Label Content="Step Frequency"  HorizontalAlignment="Left" Margin="122,220,0,0"     VerticalAlignment="Top" Height="40" Width="243" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+                        <Label Content="Dwell Time (mS)" HorizontalAlignment="Left" Margin="419,221,0,0" VerticalAlignment="Top" Height="40" Width="170" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" />
+
+                        <Button x:Name="uiSweepOnOff"    Width="244" Margin="117,27,0,0" Content="OFF"     HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiSweepOnOff_Click"   Background="Red" />
+                        <Button x:Name="uiSweepFreeRun"  Width="170" Margin="414,27,0,0" Content="FREE RUN" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="24" Click="uiSweepFreeRun_Click" Background="LightGray" />
+                        <Button x:Name="uiSweepExternal" Width="170" Margin="584,27,0,0" Content="EXTERNAL" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="24" Click="uiSweepExternal_Click" Background="Green" />
+
+                        <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="118,175,0,0"   Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStart" KeyDown="uiSweepStart_KeyDown" FontWeight="Bold" FontSize="16" />
+                        <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="122,260,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStep"  KeyDown="uiSweepStep_KeyDown" FontWeight="Bold" FontSize="16"  />
+                        <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="418,174,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStop"  KeyDown="uiSweepStop_KeyDown" FontSize="16" FontWeight="Bold"  />
+                        <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="419,261,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepDwell" KeyDown="uiSweepDwell_KeyDown" FontSize="16" FontWeight="Bold" />
+
+                        <ComboBox HorizontalAlignment="Left" Margin="286,175,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" x:Name="uiSweepStartType"  SelectionChanged="uiSweepUnit_SelectionChanged" FontWeight="Bold" FontSize="16">
+                            <ComboBoxItem Content="Hz" />
+                            <ComboBoxItem Content="KHz" />
+                            <ComboBoxItem Content="MHz" />
+                            <ComboBoxItem Content="GHz" />
+                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Left" Margin="586,174,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" x:Name="uiSweepStopType" SelectionChanged="uiSweepUnit_SelectionChanged" FontWeight="Bold" FontSize="16" >
+                            <ComboBoxItem Content="Hz" />
+                            <ComboBoxItem Content="KHz" />
+                            <ComboBoxItem Content="MHz" />
+                            <ComboBoxItem Content="GHz" />
+                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Left" SelectedIndex="2" Margin="290,260,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" x:Name="uiSweepStepType" SelectionChanged="uiSweepUnit_SelectionChanged" FontWeight="Bold" FontSize="16" >
+                            <ComboBoxItem Content="Hz" />
+                            <ComboBoxItem Content="KHz" />
+                            <ComboBoxItem Content="MHz" />
+                            <ComboBoxItem Content="GHz" />
+                        </ComboBox>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="REFERENCE" Padding="5">
+                    <Grid>
+                        <Label Content="REFERENCE" HorizontalAlignment="Left" Margin="277,10,0,0" VerticalAlignment="Top" Height="86" Width="187" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="24"/>
+                        <Button x:Name="uiRefInternal" Width="215" Margin="161,112,0,0" Content="INTERNAL" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefInternal_Click" Background="LightGray" />
+                        <Button x:Name="uiRefExternal" Width="215" Margin="375,112,0,0" Content="EXTERNAL" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefExternal_Click" Background="Green" />
+                        <Button x:Name="uiRefTcxo"     Width="215" Margin="161,203,0,0" Content="TCXO"     HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefTcxo_Click" Background="LightGray"  />
+                        <Button x:Name="uiRefOcxo"     Width="215" Margin="375,203,0,0" Content="OCXO"     HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefOcxo_Click" Background="Green" />
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="DIAGNOSTICS" Padding="5">
+                    <Grid>
+                        <Button x:Name="uiTemperature" Width="381" Margin="54,12,0,0" Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiTemperature_Click" />
+                        <Button x:Name="uiPLLXtal" Width="381" Margin="54,57,0,0" Content="PLL Lock (Xtal)" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiPLLXtal_Click" />
+                        <Button x:Name="uiPLLLMX1" Width="381" Margin="54,102,0,0" Content="PLL Lock (LMX1)" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiPLLLMX1_Click" />
+                        <Button x:Name="uiPLLLMX2" Width="381" Margin="54,147,0,0" Content="PLL Lock (LMX2)" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiPLLLMX2_Click" />
+                        <Button x:Name="uiPower" Width="381" Margin="54,192,0,0" Content="Power" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiPower_Click" />
+                        <Button x:Name="uiRSSI" Width="381" Margin="54,237,0,0" Content="WIFI RSSI (dBm)" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiRSSI_Click" />
+                        <Button x:Name="uiDiagReadAll" Width="274" Margin="453,13,0,0" Content="Read All Diagnostic" HorizontalAlignment="Left" VerticalAlignment="Top" Height="84"  FontSize="22" Click="uiDiagReadAll_Click" FontWeight="Bold" />
+
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Serial Number : "         Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,136,0,0" Name="lblSerialNumber" />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Model : "                 Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,116,0,0" Name="lblModel"        />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.0" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Embedded Version :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,176,0,0" Name="lblESP8266"     />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="ESP8266 EM. Version :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,196,0,0" Name="lblEM"     />
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="SETTINGS" Padding="5">
+                    <Grid>
+                        <Label Content="Station SSID"     HorizontalAlignment="Left" Margin="60,10,0,0"  VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Station Password" HorizontalAlignment="Left" Margin="31,45,0,0"  VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Hotspot SSID"     HorizontalAlignment="Left" Margin="26,80,0,0" VerticalAlignment="Top" Height="30" Width="131" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Hotspot Password" HorizontalAlignment="Left" Margin="4,115,0,0" VerticalAlignment="Top" Height="30" Width="153" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="IP Address"       HorizontalAlignment="Left" Margin="60,150,0,0" VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Subnet Mask"      HorizontalAlignment="Left" Margin="31,185,0,0" VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Default Gateway"  HorizontalAlignment="Left" Margin="31,220,0,0" VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+
+
+                        <TextBox Margin="157,10,0,0"    Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiStationSSID" />
+                        <TextBox Margin="157,45,0,0"    Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiStationPass" />
+                        <TextBox Margin="157,80,0,0"    Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiHotspotSSID" />
+                        <TextBox Margin="157,115,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiHotspotPass" />
+                        <TextBox Margin="157,150,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiIPAdress" />
+                        <TextBox Margin="157,186,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiSubnetMask" />
+                        <TextBox Margin="157,220,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiDefaultGateway" />
+
+                        <Button x:Name="uiEspCodeMode" Width="330" Margin="411,172,0,0" Content="ESP8266 UART(UploadCode) Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiEspCodeMode_Click" />
+                        <Button x:Name="uiEspOnOff" Width="330" Margin="411,76,0,0" Content="ESP8266 ON" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiEspOnOff_Click" Background="Green" />
+                        <Button x:Name="uiFactoryReset" Width="330" Margin="411,124,0,0" Content="Factory Reset" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiFactoryReset_Click" />
+                        <Button x:Name="uiSaveSettings" Width="366" Margin="2,306,0,0" Content="Apply Network Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiSaveSettings_Click" />
+                        <Button x:Name="uiStation" Width="181" Margin="2,255,0,0" Content="Station" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiStation_Click"  Background="LightGray" />
+                        <Button x:Name="uiHotspot" Width="181" Margin="187,255,0,0" Content="Hotspot" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiHotspot_Click" Background="Green" />
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="DEBUG" Padding="5">
+
+                    <Grid>
+                        <TextBox TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalAlignment="Left" Height="289" VerticalAlignment="Top" Width="720" Margin="23,29,0,-0.4" x:Name="debugPanel" />
+                        <Button Content="Clear" x:Name="debugPanelClear"  HorizontalAlignment="Left" Margin="668,-5,0,0" VerticalAlignment="Top" Width="75" Click="debugPanelClear_Click" />
+                        <Button Content="Turn Off" x:Name="debugPanelSwitch" HorizontalAlignment="Left" Margin="581,-5,0,293.6" VerticalAlignment="Bottom" Width="75" Click="debugPanelSwitch_Click" />
+                    </Grid>
+
+                </TabItem>
+
+
+            </TabControl>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Margin="100,100,10,7" Height="38" VerticalAlignment="Bottom">
+            <TextBlock Text="ERA Instruments" TextAlignment="Center" FontSize="22" FontWeight="Bold" Width="206" PreviewMouseDown="link_PreviewMouseDown" Cursor="Hand" />
+        </StackPanel>
+        
     </Grid>
 </Controls:MetroWindow>
