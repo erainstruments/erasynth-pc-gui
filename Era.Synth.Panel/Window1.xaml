@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"      
-        Icon="logo.ico" ResizeMode="NoResize" Title="ERASynth" Height="500" Width="969" ShowMaxRestoreButton="False">
+        Icon="logo.ico" ResizeMode="NoResize" Title="ERASynth Control Panel" Height="500" Width="969" ShowMaxRestoreButton="False">
 
     <Grid VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Center" Height="500" Width="969">
 
