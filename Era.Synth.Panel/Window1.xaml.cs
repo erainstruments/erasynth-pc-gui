@@ -14,6 +14,7 @@ using MahApps.Metro.Controls;
 using System.Windows.Media;
 using System.Text.RegularExpressions;
 using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace Era.Synth.Control.Panel
 {
@@ -63,7 +64,20 @@ namespace Era.Synth.Control.Panel
             uiSweepStartType.SelectionChanged += uiSweepUnit_SelectionChanged;
             uiSweepStopType.SelectionChanged  += uiSweepUnit_SelectionChanged;
             uiSweepStepType.SelectionChanged  += uiSweepUnit_SelectionChanged;
-            
+
+            uiRfFrequency.ValueChanged += valuesChanged;
+            uiRfAmplitude.ValueChanged += valuesChanged;
+
+            uiModAmDepth.ValueChanged += valuesChanged;
+            uiModFmDev.ValueChanged += valuesChanged;
+            uiModFreq.ValueChanged += valuesChanged;
+            uiModPulsePeriod.ValueChanged += valuesChanged;
+            uiModPulseWidth.ValueChanged += valuesChanged;
+
+            uiSweepDwell.ValueChanged += valuesChanged;
+            uiSweepStart.ValueChanged += valuesChanged;
+            uiSweepStep.ValueChanged += valuesChanged;
+            uiSweepStop.ValueChanged += valuesChanged;
         }
 
         private void Window1_Loaded(object sender, RoutedEventArgs e)
@@ -648,6 +662,8 @@ namespace Era.Synth.Control.Panel
                 Command.send(Command.SWEEP_FREE_RUN);
                 btn.Background = Brushes.Green;
                 uiSweepExternal.Background = Brushes.LightGray;
+                uiSweepDwell.Visibility = Visibility.Visible;
+                lblSweepDweel.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -665,6 +681,9 @@ namespace Era.Synth.Control.Panel
                 Command.send(Command.SWEEP_EXTERNAL);
                 btn.Background = Brushes.Green;
                 uiSweepFreeRun.Background = Brushes.LightGray;
+                uiSweepDwell.Visibility = Visibility.Hidden;
+                lblSweepDweel.Visibility = Visibility.Hidden;
+
             }
             catch (Exception ex)
             {
@@ -1508,8 +1527,11 @@ namespace Era.Synth.Control.Panel
                 uiSweepOnOff.Content = "OFF";
                 uiSweepOnOff.Background = Brushes.Red;
 
-                uiSweepFreeRun.Background = Brushes.LightGray;
-                uiSweepExternal.Background = Brushes.Green;
+                uiSweepFreeRun.Background   = Brushes.Green;
+                uiSweepExternal.Background  = Brushes.LightGray;
+                uiSweepDwell.Visibility     = Visibility.Visible;
+                lblSweepDweel.Visibility    = Visibility.Visible;
+
 
 
                 uiSweepStart.Value = 0;
@@ -1517,11 +1539,11 @@ namespace Era.Synth.Control.Panel
                 uiSweepStop.Value  = 0;
                 uiSweepDwell.Value = 0;
 
-                uiRefInternal.Background = Brushes.LightGray;
-                uiRefExternal.Background = Brushes.Green;
+                uiRefInternal.Background = Brushes.Green;
+                uiRefExternal.Background = Brushes.LightGray;
 
-                uiRefTcxo.Background = Brushes.LightGray;
-                uiRefOcxo.Background = Brushes.Green;
+                uiRefTcxo.Background = Brushes.Green;
+                uiRefOcxo.Background = Brushes.LightGray;
 
 
                 uiStationSSID.Text = "";
@@ -1537,8 +1559,8 @@ namespace Era.Synth.Control.Panel
 
                 uiEspCodeMode.Content = "ESP8266 ON";
                 uiEspCodeMode.Background = Brushes.Green;
-                
-                
+
+                readAll();
             }
             catch (Exception ex)
             {
@@ -1547,6 +1569,11 @@ namespace Era.Synth.Control.Panel
         }
         
         private void uiReadAll_Click_1(object sender, RoutedEventArgs e)
+        {
+            readAll();
+        }
+
+        public void readAll()
         {
             checkConnection();
 
@@ -1565,17 +1592,32 @@ namespace Era.Synth.Control.Panel
 
                 int first_char = response.IndexOf("{");
                 int last_char = response.LastIndexOf("}");
-                
-                response = response.Substring(first_char, (response.Length - first_char - (response.Length- last_char - 1)));
-                response = response.Replace("{","").Replace("}","").Replace("\"","");
-                
+
+                response = response.Substring(first_char, (response.Length - first_char - (response.Length - last_char - 1)));
+                response = response.Replace("{", "").Replace("}", "").Replace("\"", "");
+
                 string[] values = response.Split(',');
 
                 for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = values[i].Split(':')[1];
                 }
-                
+
+                // Remove text changed handlers
+                uiRfFrequency.ValueChanged -= valuesChanged;
+                uiRfAmplitude.ValueChanged -= valuesChanged;
+
+                uiModAmDepth.ValueChanged -= valuesChanged;
+                uiModFmDev.ValueChanged -= valuesChanged;
+                uiModFreq.ValueChanged -= valuesChanged;
+                uiModPulsePeriod.ValueChanged -= valuesChanged;
+                uiModPulseWidth.ValueChanged -= valuesChanged;
+
+                uiSweepDwell.ValueChanged -= valuesChanged;
+                uiSweepStart.ValueChanged -= valuesChanged;
+                uiSweepStep.ValueChanged -= valuesChanged;
+                uiSweepStop.ValueChanged -= valuesChanged;
+
 
                 // Index = 0 RF output
                 if (Convert.ToInt32(values[0]) == 1)
@@ -1591,11 +1633,14 @@ namespace Era.Synth.Control.Panel
 
                 // Index = 1 Frequency Info
                 // Frequency returns as Hz and int
-                uiRfFrequency.Value = Convert.ToInt32(values[1]);
+
+                uiRfFrequency.Value = Convert.ToUInt64(values[1]);
+                
                 uiRfFrequencyType.SelectedIndex = 3;
 
-                // Index = 2 Amplitude info 
-                uiRfAmplitude.Value = Convert.ToDouble(values[2].Replace(".",","));
+
+                // Index = 2 Amplitude info
+                uiRfAmplitude.Value = Convert.ToDouble(values[2].Replace(".", ","));
 
                 // Index = 3 Modulation On Off Info
                 if (Convert.ToInt32(values[3]) == 1)
@@ -1610,9 +1655,9 @@ namespace Era.Synth.Control.Panel
                 }
 
                 //Index = 4 Modulation Type
-                uiModAm.Background    = Brushes.LightGray;
-                uiModNbfm.Background  = Brushes.LightGray;
-                uiModWbfm.Background  = Brushes.LightGray;
+                uiModAm.Background = Brushes.LightGray;
+                uiModNbfm.Background = Brushes.LightGray;
+                uiModWbfm.Background = Brushes.LightGray;
                 uiModPulse.Background = Brushes.LightGray;
 
                 lblModAmDepth.Visibility = Visibility.Hidden;
@@ -1626,7 +1671,7 @@ namespace Era.Synth.Control.Panel
                 uiModPulseWidth.Visibility = Visibility.Hidden;
                 uiModPulsePeriodUnit.Visibility = Visibility.Hidden;
                 uiModPulseWidthUnit.Visibility = Visibility.Hidden;
-                
+
                 switch (Convert.ToInt32(values[4]))
                 {
                     case 0:
@@ -1664,10 +1709,10 @@ namespace Era.Synth.Control.Panel
                 uiModExternal.Background = Brushes.LightGray;
                 uiModMicro.Background = Brushes.LightGray;
 
-                uiModSine.Visibility        = Visibility.Hidden;
-                uiModTriangle.Visibility    = Visibility.Hidden;
-                uiModRamp.Visibility        = Visibility.Hidden;
-                uiModSquare.Visibility      = Visibility.Hidden;
+                uiModSine.Visibility = Visibility.Hidden;
+                uiModTriangle.Visibility = Visibility.Hidden;
+                uiModRamp.Visibility = Visibility.Hidden;
+                uiModSquare.Visibility = Visibility.Hidden;
 
                 lblModFreq.Visibility = Visibility.Hidden;
                 uiModFreq.Visibility = Visibility.Hidden;
@@ -1675,7 +1720,7 @@ namespace Era.Synth.Control.Panel
                 switch (Convert.ToInt32(values[5]))
                 {
                     case 0:
-                         
+
                         uiModInternal.Background = Brushes.Green;
 
                         if (Convert.ToInt32(values[4]) != 3)
@@ -1707,7 +1752,7 @@ namespace Era.Synth.Control.Panel
                 uiModTriangle.IsChecked = false;
                 uiModRamp.IsChecked = false;
                 uiModSquare.IsChecked = false;
-                
+
                 switch (Convert.ToInt32(values[6]))
                 {
                     case 0: uiModSine.IsChecked = true; break;
@@ -1723,10 +1768,10 @@ namespace Era.Synth.Control.Panel
 
                 // Index = 7 Internal Modulation Frequency
                 uiModFreq.Value = Convert.ToInt32(values[7]);
-                
+
                 // Index = 8 Modulation FM Deviation
                 uiModFmDev.Value = Convert.ToInt32(values[8]);
-                
+
                 // Index = 9 Modulation Am Depth
                 uiModAmDepth.Value = Convert.ToInt32(values[9]);
 
@@ -1744,7 +1789,7 @@ namespace Era.Synth.Control.Panel
                     uiSweepOnOff.Content = "ON";
                     uiSweepOnOff.Background = Brushes.Green;
                 }
-                else if(values[12] == "0")
+                else if (values[12] == "0")
                 {
                     uiSweepOnOff.Content = "OFF";
                     uiSweepOnOff.Background = Brushes.Red;
@@ -1765,10 +1810,12 @@ namespace Era.Synth.Control.Panel
                 // Index = 17 Sweep Trigger
                 uiSweepFreeRun.Background = Brushes.LightGray;
                 uiSweepExternal.Background = Brushes.LightGray;
+                uiSweepDwell.Visibility = Visibility.Hidden;
+                lblSweepDweel.Visibility = Visibility.Hidden;
 
-                if (values[17] == "0") { uiSweepFreeRun.Background = Brushes.Green; }
+                if (values[17] == "0") { uiSweepFreeRun.Background = Brushes.Green; uiSweepDwell.Visibility = Visibility.Visible; lblSweepDweel.Visibility = Visibility.Visible; }
                 else if (values[17] == "1") { uiSweepExternal.Background = Brushes.Green; }
-                
+
 
                 // Index = 18 Reference Interanl or External
                 uiRefExternal.Background = Brushes.LightGray;
@@ -1782,7 +1829,7 @@ namespace Era.Synth.Control.Panel
                 {
                     uiRefExternal.Background = Brushes.Green;
                 }
-                
+
                 // Index = 19 Reference TCXO or OCXO
                 uiRefTcxo.Background = Brushes.LightGray;
                 uiRefOcxo.Background = Brushes.LightGray;
@@ -1795,7 +1842,7 @@ namespace Era.Synth.Control.Panel
                 {
                     uiRefOcxo.Background = Brushes.Green;
                 }
-                
+
                 // Index = 20 Wifi Mode
                 uiStation.Background = Brushes.LightGray;
                 uiHotspot.Background = Brushes.LightGray;
@@ -1808,7 +1855,7 @@ namespace Era.Synth.Control.Panel
                 {
                     uiStation.Background = Brushes.Green;
                 }
-                
+
                 // Index = 21 Wifi Station SSID
                 uiStationSSID.Text = values[21].ToString();
 
@@ -1824,19 +1871,35 @@ namespace Era.Synth.Control.Panel
                 // Index = 25 IP Address
                 uiIPAdress.Text = values[25].ToString();
 
-                // Index = 26 Subnetmask
-                uiSubnetMask.Text = values[26].ToString();
-                
-                // Index = 27 Default Gateway
-                uiDefaultGateway.Text = values[27].ToString();
-                
+                // Index = 27 Subnetmask
+                uiSubnetMask.Text = values[27].ToString();
+
+                // Index = 26 Default Gateway
+                uiDefaultGateway.Text = values[26].ToString();
+                Thread.Sleep(50);
+                uiRfFrequency.Value = Convert.ToUInt64(values[1]);
+
+                // add text changed handlers back to inputs
+                uiRfFrequency.ValueChanged += valuesChanged;
+                uiRfAmplitude.ValueChanged += valuesChanged;
+
+                uiModAmDepth.ValueChanged += valuesChanged;
+                uiModFmDev.ValueChanged += valuesChanged;
+                uiModFreq.ValueChanged += valuesChanged;
+                uiModPulsePeriod.ValueChanged += valuesChanged;
+                uiModPulseWidth.ValueChanged += valuesChanged;
+
+                uiSweepDwell.ValueChanged += valuesChanged;
+                uiSweepStart.ValueChanged += valuesChanged;
+                uiSweepStep.ValueChanged += valuesChanged;
+                uiSweepStop.ValueChanged += valuesChanged;
             }
             catch (Exception ex)
             {
                 giveError(ex);
             }
         }
-        
+
         public void checkConnection()
         {
             if (!IsConnected) { MessageBox.Show("Please connect the device! "); return; }
@@ -1871,7 +1934,7 @@ namespace Era.Synth.Control.Panel
                     {
                         port = new SerialPort(portVal, int.Parse(baud), Parity.None, 8, StopBits.One);
                         port.DataReceived += Port_DataReceived;
-                        port.DtrEnable = true;
+                        //port.DtrEnable = true;
                         port.Open();
                         port.DiscardInBuffer();
                         port.DiscardOutBuffer();
@@ -1964,6 +2027,22 @@ namespace Era.Synth.Control.Panel
             }
             catch (Exception ex) { Debug.WriteLine(ex); }
 
+        }
+
+        private void valueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+        {
+            NumericUpDown input = sender as NumericUpDown;
+            input.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(input), 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent });    
+        }
+
+        private void valuesChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            try
+            {
+                NumericUpDown input = sender as NumericUpDown;
+                input.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(input), 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent });
+            }
+            catch (Exception ex) { Debug.WriteLine(ex); }
         }
     }
 }
