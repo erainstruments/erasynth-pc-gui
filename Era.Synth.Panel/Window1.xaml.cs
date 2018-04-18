@@ -65,20 +65,42 @@ namespace Era.Synth.Control.Panel
             uiSweepStopType.SelectionChanged  += uiSweepUnit_SelectionChanged;
             uiSweepStepType.SelectionChanged  += uiSweepUnit_SelectionChanged;
 
-            uiRfFrequency.ValueChanged += valuesChanged;
-            uiRfAmplitude.ValueChanged += valuesChanged;
 
-            uiModAmDepth.ValueChanged += valuesChanged;
-            uiModFmDev.ValueChanged += valuesChanged;
-            uiModFreq.ValueChanged += valuesChanged;
-            uiModPulsePeriod.ValueChanged += valuesChanged;
-            uiModPulseWidth.ValueChanged += valuesChanged;
 
-            uiSweepDwell.ValueChanged += valuesChanged;
-            uiSweepStart.ValueChanged += valuesChanged;
-            uiSweepStep.ValueChanged += valuesChanged;
-            uiSweepStop.ValueChanged += valuesChanged;
+            //uiRfFrequency.ValueIncremented += valueIncremented;
+            //uiRfAmplitude.ValueIncremented += valueIncremented;
+
+            //uiModFmDev.ValueIncremented += valueIncremented;
+            //uiModFreq.ValueIncremented += valueIncremented;
+            //uiModPulsePeriod.ValueIncremented += valueIncremented;
+            //uiModPulseWidth.ValueIncremented += valueIncremented;
+
+            //uiSweepDwell.ValueIncremented += valueIncremented;
+            //uiSweepStart.ValueIncremented += valueIncremented;
+            //uiSweepStep.ValueIncremented += UiRfFrequency_ValueIncremented;
+            //uiSweepStop.ValueIncremented += UiRfFrequency_ValueIncremented;
+            
+
+
+            //uiRfFrequency.ValueDecremented += valueDecremented;
+            //uiRfAmplitude.ValueDecremented += valueDecremented;
+
+            //uiModFmDev.ValueDecremented += valueDecremented;
+            //uiModFreq.ValueDecremented += valueDecremented;
+            //uiModPulsePeriod.ValueDecremented += valueDecremented;
+            //uiModPulseWidth.ValueDecremented += valueDecremented;
+
+            //uiSweepDwell.ValueDecremented += valueDecremented;
+            //uiSweepStart.ValueDecremented += valueDecremented;
+            //uiSweepStep.ValueDecremented += valueDecremented;
+            //uiSweepStop.ValueDecremented += valueDecremented;
+
         }
+
+        //private void UiRfFrequency_ValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private void Window1_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1604,19 +1626,19 @@ namespace Era.Synth.Control.Panel
                 }
 
                 // Remove text changed handlers
-                uiRfFrequency.ValueChanged -= valuesChanged;
-                uiRfAmplitude.ValueChanged -= valuesChanged;
+                //uiRfFrequency.ValueChanged -= valuesChanged;
+                //uiRfAmplitude.ValueChanged -= valuesChanged;
 
-                uiModAmDepth.ValueChanged -= valuesChanged;
-                uiModFmDev.ValueChanged -= valuesChanged;
-                uiModFreq.ValueChanged -= valuesChanged;
-                uiModPulsePeriod.ValueChanged -= valuesChanged;
-                uiModPulseWidth.ValueChanged -= valuesChanged;
+                //uiModAmDepth.ValueChanged -= valuesChanged;
+                //uiModFmDev.ValueChanged -= valuesChanged;
+                //uiModFreq.ValueChanged -= valuesChanged;
+                //uiModPulsePeriod.ValueChanged -= valuesChanged;
+                //uiModPulseWidth.ValueChanged -= valuesChanged;
 
-                uiSweepDwell.ValueChanged -= valuesChanged;
-                uiSweepStart.ValueChanged -= valuesChanged;
-                uiSweepStep.ValueChanged -= valuesChanged;
-                uiSweepStop.ValueChanged -= valuesChanged;
+                //uiSweepDwell.ValueChanged -= valuesChanged;
+                //uiSweepStart.ValueChanged -= valuesChanged;
+                //uiSweepStep.ValueChanged -= valuesChanged;
+                //uiSweepStop.ValueChanged -= valuesChanged;
 
 
                 // Index = 0 RF output
@@ -1796,16 +1818,20 @@ namespace Era.Synth.Control.Panel
                 }
 
                 // Index = 13 Sweep Start Freq
-                try { uiSweepStart.Value = Convert.ToDouble(values[13]); } catch { }
+                try { uiSweepStart.Value = Convert.ToUInt64(values[13]); } catch { }
 
                 // Index = 14 Sweep Stop Freq
-                try { uiSweepStop.Value = Convert.ToDouble(values[14]); } catch { }
+                try { uiSweepStop.Value = Convert.ToUInt64(values[14]); } catch { }
 
                 // Index = 15 Sweep Step Freq
-                try { uiSweepStep.Value = Convert.ToDouble(values[15]); } catch { }
+                try { uiSweepStep.Value = Convert.ToUInt64(values[15]); } catch { }
 
                 // Index = 16 Sweep Dwell Time
                 try { uiSweepDwell.Value = Convert.ToInt32(values[16]); } catch { }
+
+                uiSweepStartType.SelectedIndex = 0;
+                uiSweepStepType.SelectedIndex = 0;
+                uiSweepStopType.SelectedIndex = 0;
 
                 // Index = 17 Sweep Trigger
                 uiSweepFreeRun.Background = Brushes.LightGray;
@@ -1821,11 +1847,12 @@ namespace Era.Synth.Control.Panel
                 uiRefExternal.Background = Brushes.LightGray;
                 uiRefInternal.Background = Brushes.LightGray;
 
+                Debug.WriteLine(values[18]);
                 if (values[18] == "0")
                 {
                     uiRefInternal.Background = Brushes.Green;
                 }
-                else if (values[19] == "1")
+                else if (values[18] == "1")
                 {
                     uiRefExternal.Background = Brushes.Green;
                 }
@@ -1878,21 +1905,24 @@ namespace Era.Synth.Control.Panel
                 uiDefaultGateway.Text = values[26].ToString();
                 Thread.Sleep(50);
                 uiRfFrequency.Value = Convert.ToUInt64(values[1]);
-
+                try { uiSweepStart.Value = Convert.ToUInt64(values[13]); } catch { }
+                try { uiSweepStop.Value = Convert.ToUInt64(values[14]); } catch { }
+                try { uiSweepStep.Value = Convert.ToUInt64(values[15]); } catch { }
+                
                 // add text changed handlers back to inputs
-                uiRfFrequency.ValueChanged += valuesChanged;
-                uiRfAmplitude.ValueChanged += valuesChanged;
+                //uiRfFrequency.ValueChanged += valuesChanged;
+                //uiRfAmplitude.ValueChanged += valuesChanged;
 
-                uiModAmDepth.ValueChanged += valuesChanged;
-                uiModFmDev.ValueChanged += valuesChanged;
-                uiModFreq.ValueChanged += valuesChanged;
-                uiModPulsePeriod.ValueChanged += valuesChanged;
-                uiModPulseWidth.ValueChanged += valuesChanged;
+                //uiModAmDepth.ValueChanged += valuesChanged;
+                //uiModFmDev.ValueChanged += valuesChanged;
+                //uiModFreq.ValueChanged += valuesChanged;
+                //uiModPulsePeriod.ValueChanged += valuesChanged;
+                //uiModPulseWidth.ValueChanged += valuesChanged;
 
-                uiSweepDwell.ValueChanged += valuesChanged;
-                uiSweepStart.ValueChanged += valuesChanged;
-                uiSweepStep.ValueChanged += valuesChanged;
-                uiSweepStop.ValueChanged += valuesChanged;
+                //uiSweepDwell.ValueChanged += valuesChanged;
+                //uiSweepStart.ValueChanged += valuesChanged;
+                //uiSweepStep.ValueChanged += valuesChanged;
+                //uiSweepStop.ValueChanged += valuesChanged;
             }
             catch (Exception ex)
             {
@@ -2035,7 +2065,7 @@ namespace Era.Synth.Control.Panel
             input.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(input), 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent });    
         }
 
-        private void valuesChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        private void valuesChanged(object sender, NumericUpDownChangedRoutedEventArgs e)
         {
             try
             {

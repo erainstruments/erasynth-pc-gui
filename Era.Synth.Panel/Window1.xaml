@@ -170,9 +170,16 @@
                         <Button x:Name="uiSweepFreeRun"  Width="170" Margin="414,27,0,0" Content="FREE RUN" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="24" Click="uiSweepFreeRun_Click" Background="Green" />
                         <Button x:Name="uiSweepExternal" Width="170" Margin="584,27,0,0" Content="EXTERNAL" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="24" Click="uiSweepExternal_Click" Background="LightGray" />
 
-                        <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="118,175,0,0"   Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStart" KeyDown="uiSweepStart_KeyDown" FontWeight="Bold" FontSize="16" />
+                        <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="118,175,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStart" KeyDown="uiSweepStart_KeyDown" FontWeight="Bold" FontSize="16" />
+                        
+                        
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="122,260,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStep"  KeyDown="uiSweepStep_KeyDown" FontWeight="Bold" FontSize="16"  />
+                        
+                        
+                        
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="418,174,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStop"  KeyDown="uiSweepStop_KeyDown" FontSize="16" FontWeight="Bold"  />
+                        
+                        
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="419,261,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepDwell" KeyDown="uiSweepDwell_KeyDown" FontSize="16" FontWeight="Bold" />
 
                         <ComboBox HorizontalAlignment="Left" Margin="286,175,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" x:Name="uiSweepStartType"  SelectionChanged="uiSweepUnit_SelectionChanged" FontWeight="Bold" FontSize="16">
