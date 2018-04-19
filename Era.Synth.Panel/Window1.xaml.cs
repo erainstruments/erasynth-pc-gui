@@ -1894,7 +1894,7 @@ namespace Era.Synth.Control.Panel
                 }
                 else if (values[20] == "1")
                 {
-                    uiStation.Background = Brushes.Green;
+                    uiHotspot.Background = Brushes.Green;
                 }
 
                 // Index = 21 Wifi Station SSID
