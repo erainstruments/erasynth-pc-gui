@@ -855,9 +855,9 @@ namespace Era.Synth.Control.Panel
                 
                 try
                 {
-                    ulong val1 = Convert.ToUInt64(uiSweepStart.Value);
-                    ulong val2 = Convert.ToUInt64(uiSweepStep.Value);
-                    ulong val3 = Convert.ToUInt64(uiSweepStop.Value);
+                    double val1 = Convert.ToDouble(uiSweepStart.Value);
+                    double val2 = Convert.ToDouble(uiSweepStep.Value);
+                    double val3 = Convert.ToDouble(uiSweepStop.Value);
 
                     val1 = val1 * (ulong)i;
                     val2 = val2 * (ulong)i;
@@ -899,7 +899,7 @@ namespace Era.Synth.Control.Panel
             {
                 Command.send(Command.REFERENCE_INTERNAL);
                 btn.Background = Brushes.Green;
-                uiRefExternal.Background = Brushes.Gray;
+                uiRefExternal.Background = Brushes.LightGray;
             }
             catch (Exception ex)
             {
@@ -1134,7 +1134,7 @@ namespace Era.Synth.Control.Panel
                 double voltage = Convert.ToDouble(v.Replace(".", ","));
                 double power = current * voltage;
 
-                uiPower.Content = current.ToString("0.00") + "A x " + voltage.ToString("0.00") + " V = " + power.ToString("0.00") + " W";
+                uiPower.Content = current.ToString("0.00") + " A x " + voltage.ToString("0.00") + " V = " + power.ToString("0.00") + " W";
 
             }
             catch (Exception ex)
@@ -1249,14 +1249,14 @@ namespace Era.Synth.Control.Panel
                 double voltage = Convert.ToDouble(values[5].Replace(".", ","));
                 double power = current * voltage;
 
-                uiPower.Content = current.ToString("0.00") + "A x " + voltage.ToString("0.00") + " V = " + power.ToString("0.00") + " W";
+                uiPower.Content = current.ToString("0.00") + " A x " + voltage.ToString("0.00") + " V = " + power.ToString("0.00") + " W";
 
                 // Index = 6 RSSI Value
                 uiRSSI.Content = "WIFI RSSI (dBm) : " + values[6];
 
                 // Index = 7 Embedded Version
                 lblEM.Text = "Embedded Version : " + values[7];
-                lblESP8266.Text = "ESP8266 EM. Version : " + values[8];
+                lblESP8266.Text = "ESP8266 Embedded Ver. : " + values[8];
 
                 // Trigger RSSI to read again
                 uiRSSI.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
@@ -1278,6 +1278,9 @@ namespace Era.Synth.Control.Panel
 
         private void uiSaveSettings_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure?", "Network configuration change", MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.No) { return; }
+
             string sta_ssid = uiStationSSID.Text;
             string sta_pass = uiStationPass.Text;
             string hotspot_ssid = uiHotspotSSID.Text;
@@ -1379,11 +1382,14 @@ namespace Era.Synth.Control.Panel
         {
             Button btn = sender as Button;
             btn.Background = Brushes.Green;
-            uiStation.Background = Brushes.Gray;
+            uiStation.Background = Brushes.LightGray;
         }
 
         private void uiEspOnOff_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure?", "ESP8266 module power", MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.No) { return; }
+
             checkConnection();
 
             Button btn = sender as Button;
@@ -1417,6 +1423,9 @@ namespace Era.Synth.Control.Panel
 
         private void uiEspCodeMode_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure?", "Upload mode Confirmation", MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.No) { return; }
+
             checkConnection();
 
             try
@@ -1434,7 +1443,7 @@ namespace Era.Synth.Control.Panel
         {
             checkConnection();
 
-            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure?", "Reset Confirmation", MessageBoxButton.YesNo);
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure?", "Factory Reset Confirmation", MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.No) { return; }
 
             try
