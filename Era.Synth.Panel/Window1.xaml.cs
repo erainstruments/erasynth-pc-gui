@@ -357,6 +357,11 @@ namespace Era.Synth.Control.Panel
                 {
                     uiModFreq.Visibility = Visibility.Visible;
                     lblModFreq.Visibility = Visibility.Visible;
+
+                    uiModSine.Visibility = Visibility.Visible;
+                    uiModSquare.Visibility = Visibility.Visible;
+                    uiModRamp.Visibility = Visibility.Visible;
+                    uiModTriangle.Visibility = Visibility.Visible;
                 }
 
                 uiModAmDepth.Visibility         = Visibility.Visible;
@@ -1579,8 +1584,8 @@ namespace Era.Synth.Control.Panel
                 uiStation.Background = Brushes.LightGray;
                 uiHotspot.Background = Brushes.Green;
 
-                uiEspCodeMode.Content = "ESP8266 ON";
-                uiEspCodeMode.Background = Brushes.Green;
+                uiEspOnOff.Content = "ESP8266 ON";
+                uiEspOnOff.Background = Brushes.Green;
 
                 readAll();
             }
@@ -2043,7 +2048,7 @@ namespace Era.Synth.Control.Panel
 
             try
             {
-               ulong val = Convert.ToUInt64(uiRfFrequency.Value);
+                double val = Convert.ToDouble(uiRfFrequency.Value);
                 val = val * (ulong)i;
                 string a2 = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content.ToString();
                 switch (a2)
