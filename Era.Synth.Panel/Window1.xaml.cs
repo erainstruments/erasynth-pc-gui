@@ -97,11 +97,6 @@ namespace Era.Synth.Control.Panel
 
         }
 
-        //private void UiRfFrequency_ValueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         private void Window1_Loaded(object sender, RoutedEventArgs e)
         {
             //uiBaudRate.SelectionChanged += uiBaudRate_SelectionChanged;
@@ -1134,7 +1129,7 @@ namespace Era.Synth.Control.Panel
                 double voltage = Convert.ToDouble(v.Replace(".", ","));
                 double power = current * voltage;
 
-                uiPower.Content = current.ToString("0.00") + " A x " + voltage.ToString("0.00") + " V = " + power.ToString("0.00") + " W";
+                uiPower.Content = current.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " A x " + voltage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " V = " + power.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " W";
 
             }
             catch (Exception ex)
@@ -1249,7 +1244,7 @@ namespace Era.Synth.Control.Panel
                 double voltage = Convert.ToDouble(values[5].Replace(".", ","));
                 double power = current * voltage;
 
-                uiPower.Content = current.ToString("0.00") + " A x " + voltage.ToString("0.00") + " V = " + power.ToString("0.00") + " W";
+                uiPower.Content = current.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " A x " + voltage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " V = " + power.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " W";
 
                 // Index = 6 RSSI Value
                 uiRSSI.Content = "WIFI RSSI (dBm) : " + values[6];
@@ -2071,12 +2066,6 @@ namespace Era.Synth.Control.Panel
             }
             catch (Exception ex) { Debug.WriteLine(ex); }
 
-        }
-
-        private void valueIncremented(object sender, NumericUpDownChangedRoutedEventArgs args)
-        {
-            NumericUpDown input = sender as NumericUpDown;
-            input.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(input), 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent });    
         }
 
         private void valuesChanged(object sender, NumericUpDownChangedRoutedEventArgs e)
