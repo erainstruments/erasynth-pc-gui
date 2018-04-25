@@ -976,7 +976,7 @@ namespace Era.Synth.Control.Panel
 
                 response = response.Substring(0, response.IndexOf("\r"));
 
-                double celcius = Convert.ToDouble(response.Replace(".", ","));
+                double celcius = Convert.ToDouble(response.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
                 double fahrenheit = (celcius * 9 / 5) + 32;
 
                 uiTemperature.Content = "Temperature: " + celcius + "°C / " + fahrenheit + "°F";
@@ -1125,8 +1125,8 @@ namespace Era.Synth.Control.Panel
                 a = a.Substring(0, response.IndexOf("\r"));
                 v = v.Substring(0, response.IndexOf("\r"));
 
-                double current = Convert.ToDouble(a.Replace(".", ","));
-                double voltage = Convert.ToDouble(v.Replace(".", ","));
+                double current = Convert.ToDouble(a.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+                double voltage = Convert.ToDouble(v.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
                 double power = current * voltage;
 
                 uiPower.Content = current.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " A x " + voltage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " V = " + power.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " W";
@@ -1195,7 +1195,7 @@ namespace Era.Synth.Control.Panel
                 }
 
                 // Index = 0 Temperature Info
-                double celcius = Convert.ToDouble(values[0].Replace(".", ","));
+                double celcius = Convert.ToDouble(values[0].Replace(",","."), System.Globalization.CultureInfo.InvariantCulture);
                 double fahrenheit = (celcius * 9 / 5) + 32;
                 uiTemperature.Content = "Temperature: " + celcius + "°C / " + fahrenheit + "°F";
 
@@ -1240,8 +1240,8 @@ namespace Era.Synth.Control.Panel
 
                 // Index = 4 Current
                 // Index = 5 Voltage
-                double current = Convert.ToDouble(values[4].Replace(".", ","));
-                double voltage = Convert.ToDouble(values[5].Replace(".", ","));
+                double current = Convert.ToDouble(values[4].Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+                double voltage = Convert.ToDouble(values[5].Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
                 double power = current * voltage;
 
                 uiPower.Content = current.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " A x " + voltage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " V = " + power.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + " W";
@@ -1671,7 +1671,7 @@ namespace Era.Synth.Control.Panel
 
 
                 // Index = 2 Amplitude info
-                uiRfAmplitude.Value = Convert.ToDouble(values[2].Replace(".", ","));
+                uiRfAmplitude.Value = Convert.ToDouble(values[2].Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
 
                 // Index = 3 Modulation On Off Info
                 if (Convert.ToInt32(values[3]) == 1)
