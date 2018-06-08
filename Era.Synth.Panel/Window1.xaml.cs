@@ -428,7 +428,7 @@ namespace Era.Synth.Control.Panel
             Button btn = sender as Button;
             try
             {
-                Command.send(Command.MODULATION_NBFM);
+                Command.send(Command.MODULATION_WBFM);
                 btn.Background = Brushes.Green;
 
                 uiModAm.Background = Brushes.LightGray;
