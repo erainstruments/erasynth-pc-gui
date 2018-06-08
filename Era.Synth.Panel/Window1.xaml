@@ -226,7 +226,7 @@
 
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Serial Number : "         Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,136,0,0" Name="lblSerialNumber" />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Model : "                 Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,116,0,0" Name="lblModel"        />
-                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.0" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.1" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Embedded Version :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,176,0,0" Name="lblESP8266"     />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="ESP8266 Embedded Ver. :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,196,0,0" Name="lblEM"     />
 
