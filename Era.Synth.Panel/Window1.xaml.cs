@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Text.RegularExpressions;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace Era.Synth.Control.Panel
 {
@@ -23,6 +24,8 @@ namespace Era.Synth.Control.Panel
         public bool IsConnected = false;
         SerialPort port;
         bool IsDebugOn = true;
+        DispatcherTimer timer;
+        bool isInProgress = false;
 
         public Window1()
         {
@@ -34,6 +37,7 @@ namespace Era.Synth.Control.Panel
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(errorHandler);
             Closing += OnWindowClosing;
             Loaded += Window1_Loaded;
+            //tabControl.SelectionChanged -= TabControl_SelectionChanged;
 
             try
             {
@@ -79,7 +83,7 @@ namespace Era.Synth.Control.Panel
             //uiSweepStart.ValueIncremented += valueIncremented;
             //uiSweepStep.ValueIncremented += UiRfFrequency_ValueIncremented;
             //uiSweepStop.ValueIncremented += UiRfFrequency_ValueIncremented;
-            
+
 
 
             //uiRfFrequency.ValueDecremented += valueDecremented;
@@ -95,11 +99,25 @@ namespace Era.Synth.Control.Panel
             //uiSweepStep.ValueDecremented += valueDecremented;
             //uiSweepStop.ValueDecremented += valueDecremented;
 
+            //timer = new DispatcherTimer();
+            //timer.Interval = new TimeSpan(0,0,1);
+            //timer.Tick += Timer_Tick;
+            //timer.Start();
+
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (IsConnected && tabDiagnostic.IsSelected)
+            {
+                uiDiagReadAll_Click(null, null);
+            }
         }
 
         private void Window1_Loaded(object sender, RoutedEventArgs e)
         {
             //uiBaudRate.SelectionChanged += uiBaudRate_SelectionChanged;
+            //tabControl.SelectionChanged += TabControl_SelectionChanged;
         }
 
         public void prepareDeviceList()
@@ -163,13 +181,14 @@ namespace Era.Synth.Control.Panel
             
         }
         
-        private void uiRfFrequency_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void uiRfFrequency_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
+            int i = 0;
+            if (e.Key == Key.Enter)
             {
                 checkConnection();
 
-                string freq = uiRfFrequency.Value.ToString();
+                string freq = uiRfFrequency.Text;
                 string type = uiRfFrequencyType.Text;
 
                 int multiplier = 1;
@@ -193,26 +212,194 @@ namespace Era.Synth.Control.Panel
                 try { Command.send(Command.FREQUENCY, freqVal.ToString()); }
                 catch (Exception ex) { giveError(ex); }
             }
-        }
-
-        private void uiRfAmplitude_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
+            else if (e.Key == Key.Up)
             {
-                checkConnection();
+                string step = uiRfFrequencyStep.Text.ToString();
+                string type = uiRfFrequencyStepType.Text;
 
-                string amp = uiRfAmplitude.Value.ToString();
-                double ampVal = -60.0;
-                try { ampVal = Convert.ToDouble(amp); }
-                catch { MessageBox.Show("Please enter proper numerical values"); return; }
-                
-                try { Command.send(Command.AMPLITUDE, (ampVal > 0 ? "+" : "") +  ampVal.ToString("0.0").Replace(",", ".")); }
-                catch (Exception ex) { giveError(ex); }
+                int multiplier = 1;
+                if (type == "KHz") { multiplier = 1000; }
+                else if (type == "MHz") { multiplier = 1000000; }
+                else if (type == "GHz") { multiplier = 1000000000; }
+
+                double stepVal = 1;
+
+                try
+                {
+                    stepVal = Convert.ToDouble(step);
+                    stepVal = stepVal * multiplier;
+                }
+                catch
+                {
+                    uiRfFrequencyStep.Text = "1";
+                    uiRfFrequencyStepType.SelectedIndex = 3;
+                    //MessageBox.Show("Enter only numerical step value!!");
+                    //return;
+                }
+
+                try
+                {
+                    double freq = Convert.ToDouble(uiRfFrequency.Text);
+
+                    int freqMultiplier = 1;
+                    string freqType = uiRfFrequencyType.Text;
+
+                    if (freqType == "KHz") { freqMultiplier = 1000; }
+                    else if (freqType == "MHz") { freqMultiplier = 1000000; }
+                    else if (freqType == "GHz") { freqMultiplier = 1000000000; }
+
+                    stepVal /= freqMultiplier;
+                    uiRfFrequency.Text = (freq + stepVal).ToString();
+                    uiRfFrequency_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Enter));
+                    readAll(200);
+                }
+                catch (Exception ex)
+                {
+                    giveError(ex);
+                }
+            }
+            else if (e.Key == Key.Down)
+            {
+                string step = uiRfFrequencyStep.Text.ToString();
+                string type = uiRfFrequencyStepType.Text;
+
+                int multiplier = 1;
+                if (type == "KHz") { multiplier = 1000; }
+                else if (type == "MHz") { multiplier = 1000000; }
+                else if (type == "GHz") { multiplier = 1000000000; }
+
+                double stepVal = 1;
+
+                try
+                {
+                    stepVal = Convert.ToDouble(step);
+                    stepVal = stepVal * multiplier;
+                }
+                catch
+                {
+                    MessageBox.Show("Enter only numerical step value!!");
+                    return;
+                }
+
+                try
+                {
+                    double freq = Convert.ToDouble(uiRfFrequency.Text);
+
+                    int freqMultiplier = 1;
+                    string freqType = uiRfFrequencyType.Text;
+
+                    if (freqType == "KHz") { freqMultiplier = 1000; }
+                    else if (freqType == "MHz") { freqMultiplier = 1000000; }
+                    else if (freqType == "GHz") { freqMultiplier = 1000000000; }
+
+                    stepVal /= freqMultiplier;
+                    uiRfFrequency.Text = (freq - stepVal).ToString();
+                    uiRfFrequency_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Enter));
+                    readAll(200);
+                }
+                catch (Exception ex)
+                {
+                    giveError(ex);
+                }
             }
         }
 
+        private void uiRfAmplitude_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                checkConnection();
+
+                string amp = uiRfAmplitude.Text;
+                double ampVal = -60.0;
+                try { ampVal = Convert.ToDouble(amp); }
+                catch { MessageBox.Show("Please enter proper numerical values"); return; }
+
+                try { Command.send(Command.AMPLITUDE, (ampVal > 0 ? "+" : "") + ampVal.ToString("0.0").Replace(",", ".")); }
+                catch (Exception ex) { giveError(ex); }
+            }
+            else if (e.Key == Key.Up)
+            {
+                string step = uiRfAmplitudeStep.Text.ToString();
+
+                double stepVal = 1;
+
+                try
+                {
+                    stepVal = Convert.ToDouble(step);
+                }
+                catch
+                {
+                    uiRfAmplitudeStep.Text = "1";
+                    //MessageBox.Show("Enter only numerical step value!!");
+                    //return;
+                }
+
+                try
+                {
+                    double amp = Convert.ToDouble(uiRfAmplitude.Text);
+                    uiRfAmplitude.Text = (amp + stepVal).ToString();
+                    uiRfAmplitude_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Enter));
+                    readAll(200);
+                }
+                catch (Exception ex)
+                {
+                    giveError(ex);
+                }
+            }
+            else if (e.Key == Key.Down)
+            {
+                string step = uiRfAmplitudeStep.Text;
+
+                double stepVal = 1;
+
+                try
+                {
+                    stepVal = Convert.ToDouble(step);
+                }
+                catch
+                {
+                    uiRfAmplitudeStep.Text = "1";
+                    //MessageBox.Show("Enter only numerical step value!!");
+                    //return;
+                }
+
+                try
+                {
+                    double amp = Convert.ToDouble(uiRfAmplitude.Text);
+                    uiRfAmplitude.Text = (amp - stepVal).ToString();
+                    uiRfAmplitude_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Enter));
+                    readAll(200);
+                }
+                catch (Exception ex)
+                {
+                    giveError(ex);
+                }
+            }
+        }
+
+        private void FreqIncrement_Click(object sender, RoutedEventArgs e)
+        {
+            uiRfFrequency_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Up) { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+
+        private void FreqDecrement_Click(object sender, RoutedEventArgs e)
+        {
+            uiRfFrequency_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down) { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+
+        private void AmpIncrement_Click(object sender, RoutedEventArgs e)
+        {
+            uiRfAmplitude_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Up) { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+
+        private void AmpDecrement_Click(object sender, RoutedEventArgs e)
+        {
+            uiRfAmplitude_KeyDown(null, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down) { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+
         #endregion
-        
+
         #region Modulation
 
         private void uiModOnOff_Click(object sender, RoutedEventArgs e)
@@ -1173,6 +1360,8 @@ namespace Era.Synth.Control.Panel
                 // remove data receive event to avoid conflict in reading data
                 // Serial port removes buffer after read and data arrives to event handler first.            
                 // If we want to read induvidually, we need to write response to debug panel seperate than event handler
+                if (isInProgress) { return; }
+                isInProgress = true;
                 port.DataReceived -= Port_DataReceived;
                 Command.send(Command.READ_DIAGNOSTIC);
                 Thread.Sleep(100);
@@ -1190,7 +1379,6 @@ namespace Era.Synth.Control.Panel
 
                 for (int i = 0; i < values.Length; i++)
                 {
-                    writeDebugPanel(values[i]);
                     values[i] = values[i].Split(':')[1];
                 }
 
@@ -1261,6 +1449,8 @@ namespace Era.Synth.Control.Panel
 
                 // Index = 9 Model 
                 lblModel.Text = "Model : " + (values[10] == "0" ? "ERASynth" : (values[10] == "1" ? "ERASynth+" : (values[10] == "2" ? "ERASynth++" : "")));
+
+                isInProgress = false;
             }
             catch (Exception ex)
             {
@@ -1493,9 +1683,9 @@ namespace Era.Synth.Control.Panel
 
                 uiRfOnOff.Content = "RF ON";
                 uiRfOnOff.Background = Brushes.Green;
-                uiRfFrequency.Value = 0;
+                uiRfFrequency.Text = "0";
                 uiRfFrequencyType.SelectedIndex = 0;
-                uiRfAmplitude.Value = 0;
+                uiRfAmplitude.Text = "0";
 
                 uiModOnOff.Content = "OFF";
                 uiModOnOff.Background = Brushes.Red;
@@ -1591,7 +1781,7 @@ namespace Era.Synth.Control.Panel
                 uiEspOnOff.Content = "ESP8266 ON";
                 uiEspOnOff.Background = Brushes.Green;
 
-                readAll();
+                readAll(200);
             }
             catch (Exception ex)
             {
@@ -1601,10 +1791,10 @@ namespace Era.Synth.Control.Panel
         
         private void uiReadAll_Click_1(object sender, RoutedEventArgs e)
         {
-            readAll();
+            readAll(200);
         }
 
-        public void readAll()
+        public async void readAll(int delay)
         {
             checkConnection();
 
@@ -1613,13 +1803,16 @@ namespace Era.Synth.Control.Panel
                 // remove data receive event to avoid conflict in reading data
                 // Serial port removes buffer after read and data arrives to event handler first.            
                 // If we want to read induvidually, we need to write response to debug panel seperate than event handler
+                if (isInProgress) { return; }
+                isInProgress = true;
 
                 port.DataReceived -= Port_DataReceived;
                 Command.send(Command.READ_ALL);
-                Thread.Sleep(500);
+                await Task.Delay(delay);
                 string response = port.ReadExisting();
                 writeDebugPanel(response);
                 port.DataReceived += Port_DataReceived;
+                
 
                 int first_char = response.IndexOf("{");
                 int last_char = response.LastIndexOf("}");
@@ -1664,14 +1857,17 @@ namespace Era.Synth.Control.Panel
 
                 // Index = 1 Frequency Info
                 // Frequency returns as Hz and int
+                int freqMultiplier = 1;
+                string freqType = (uiRfFrequencyType.SelectedItem as ComboBoxItem).Content.ToString();
+               
+                if (freqType == "KHz") { freqMultiplier = 1000; }
+                else if (freqType == "MHz") { freqMultiplier = 1000000; }
+                else if (freqType == "GHz") { freqMultiplier = 1000000000; }
 
-                uiRfFrequency.Value = Convert.ToUInt64(values[1]);
-                
-                uiRfFrequencyType.SelectedIndex = 3;
-
+                uiRfFrequency.Text = (Convert.ToDouble(values[1]) / (ulong)freqMultiplier).ToString();
 
                 // Index = 2 Amplitude info
-                uiRfAmplitude.Value = Convert.ToDouble(values[2].Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+                uiRfAmplitude.Text = (Convert.ToDouble(values[2].Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)).ToString();
 
                 // Index = 3 Modulation On Off Info
                 if (Convert.ToInt32(values[3]) == 1)
@@ -1856,7 +2052,6 @@ namespace Era.Synth.Control.Panel
                 uiRefExternal.Background = Brushes.LightGray;
                 uiRefInternal.Background = Brushes.LightGray;
 
-                Debug.WriteLine(values[18]);
                 if (values[18] == "0")
                 {
                     uiRefInternal.Background = Brushes.Green;
@@ -1913,11 +2108,11 @@ namespace Era.Synth.Control.Panel
                 // Index = 26 Default Gateway
                 uiDefaultGateway.Text = values[26].ToString();
                 Thread.Sleep(50);
-                uiRfFrequency.Value = Convert.ToUInt64(values[1]);
+                //uiRfFrequency.Value = Convert.ToUInt64(values[1]);
                 try { uiSweepStart.Value = Convert.ToUInt64(values[13]); } catch { }
                 try { uiSweepStop.Value = Convert.ToUInt64(values[14]); } catch { }
                 try { uiSweepStep.Value = Convert.ToUInt64(values[15]); } catch { }
-                
+
                 // add text changed handlers back to inputs
                 //uiRfFrequency.ValueChanged += valuesChanged;
                 //uiRfAmplitude.ValueChanged += valuesChanged;
@@ -1932,6 +2127,7 @@ namespace Era.Synth.Control.Panel
                 //uiSweepStart.ValueChanged += valuesChanged;
                 //uiSweepStep.ValueChanged += valuesChanged;
                 //uiSweepStop.ValueChanged += valuesChanged;
+                isInProgress = false;
             }
             catch (Exception ex)
             {
@@ -1989,11 +2185,13 @@ namespace Era.Synth.Control.Panel
                     if (IsConnected)
                     {
                         uiConnect.Content = "Disconnect";
+                        readAll(200);
                     }
                     else
                     {
                         uiConnect.Content = "Connect";
                         MessageBox.Show("Sorry, something went wrong :(\n We could not connect you to device");
+                        isInProgress = false;
                     }
                 }
                 catch (Exception ex)
@@ -2052,7 +2250,7 @@ namespace Era.Synth.Control.Panel
 
             try
             {
-                double val = Convert.ToDouble(uiRfFrequency.Value);
+                double val = Convert.ToDouble(uiRfFrequency.Text);
                 val = val * (ulong)i;
                 string a2 = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content.ToString();
                 switch (a2)
@@ -2061,7 +2259,7 @@ namespace Era.Synth.Control.Panel
                     case "MHz": val /= 1000000; break;
                     case "GHz": val /= 1000000000; break;
                 }
-                uiRfFrequency.Value = val;
+                uiRfFrequency.Text = val.ToString();
 
             }
             catch (Exception ex) { Debug.WriteLine(ex); }
@@ -2076,6 +2274,19 @@ namespace Era.Synth.Control.Panel
                 input.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(input), 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent });
             }
             catch (Exception ex) { Debug.WriteLine(ex); }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl)
+            {
+                if (IsConnected)
+                {
+                    if (tabDebug.IsSelected) { }
+                    else if (tabDiagnostic.IsSelected) { uiDiagReadAll_Click(null, null); }
+                    else { readAll(500); }
+                }
+            }
         }
     }
 }

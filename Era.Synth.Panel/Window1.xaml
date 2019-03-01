@@ -32,16 +32,16 @@
                     <ComboBoxItem Content="1000000" />
                     <ComboBoxItem Content="2000000" />
                 </ComboBox>
-                <Button x:Name="uiConnect" Width="100" Margin="430,17,0,0"  Content="Connect"  HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Click="uiConnectClick" FontWeight="Bold" />
-                <Button x:Name="uiReadAll" Width="100" Margin="833,17,0,0" Content="Read All" HorizontalAlignment="Left" Click="uiReadAll_Click_1" FontWeight="Bold" Height="35" VerticalAlignment="Top" />
+                <Button x:Name="uiConnect" Width="100" Margin="430,17,0,1"  Content="Connect"  HorizontalAlignment="Left" Click="uiConnectClick" FontWeight="Bold" />
+                <Button x:Name="uiReadAll" Width="100" Margin="833,17,0,1" Content="Read All" HorizontalAlignment="Left" Click="uiReadAll_Click_1" FontWeight="Bold" />
                 <Button x:Name="uiPreset"  Width="100" Margin="720,18,0,-0.2"  Content="Preset"   HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Click="uiPreset_Click" FontWeight="Bold" />
             </Grid>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Margin="10,100,10,0">
-            <TabControl  TabStripPlacement="Left" x:Name="tabControl" Margin="0,0,0.2,0">
+            <TabControl  TabStripPlacement="Left" x:Name="tabControl" Margin="0,0,0.2,0" SelectionChanged="TabControl_SelectionChanged">
 
-                <TabItem Header="HOME" Padding="5">
+                <TabItem Header="HOME" Padding="5" Name="tabHome">
 
                     <Grid>
                         <Grid.Resources>
@@ -57,25 +57,43 @@
                             </ResourceDictionary>
                         </Grid.Resources>
 
-                        <Label Content="FREQUENCY" HorizontalAlignment="Left" Margin="160,131,0,0" VerticalAlignment="Top" Height="51" Width="167" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                        <Label Content="AMPLITUDE (dBm)" HorizontalAlignment="Left" Margin="455,131,0,0" VerticalAlignment="Top" Width="228" Height="51" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label Content="FREQUENCY" HorizontalAlignment="Left" Margin="80,131,0,0" VerticalAlignment="Top" Height="51" Width="164" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <Label Content="AMPLITUDE (dBm)" HorizontalAlignment="Left" Margin="425,131,0,0" VerticalAlignment="Top" Width="228" Height="51" FontWeight="Bold" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-                        <Controls:NumericUpDown x:Name="uiRfFrequency" Minimum="0" Width="170" TextAlignment="Left" Margin="160,182,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" KeyDown="uiRfFrequency_KeyDown" FontSize="16" FontWeight="Bold" />
-                        <Controls:NumericUpDown x:Name="uiRfAmplitude" HasDecimals="True" IsEnabled="True" IsReadOnly="False" Width="228"  Maximum="20" Interval="0.1" Minimum="-60" TextAlignment="Left" Margin="455,182,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" KeyDown="uiRfAmplitude_KeyDown" FontSize="16" FontWeight="Bold" />
+                        <TextBox x:Name="uiRfFrequency" Width="170" TextAlignment="Left" Margin="80,182,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" PreviewKeyDown="uiRfFrequency_KeyDown" FontSize="16" FontWeight="Bold" />
+                        <TextBox x:Name="uiRfAmplitude" Width="228" TextAlignment="Left" Margin="425,182,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" PreviewKeyDown="uiRfAmplitude_KeyDown" FontSize="16" FontWeight="Bold" />
+                        <Button  Width="40" Height="35" Margin="653,182,0,0" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Name="ampIncrement" Click="AmpIncrement_Click" />
+                        <Button  Width="40" Height="35" Margin="696,182,0,0" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Name="ampDecrement" Click="AmpDecrement_Click" />
 
-                        <ComboBox  x:Name="uiRfFrequencyType" Margin="329,182,0,0" SelectedIndex="1" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" HorizontalContentAlignment="Center" SelectionChanged="uiRfFrequencyType_SelectionChanged" >
+
+                        <ComboBox  x:Name="uiRfFrequencyType" Margin="249,182,0,0" SelectedIndex="1" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" HorizontalContentAlignment="Center" SelectionChanged="uiRfFrequencyType_SelectionChanged" >
                             <ComboBoxItem Content="GHz" />
                             <ComboBoxItem Content="MHz" />
                             <ComboBoxItem Content="KHz" />
                             <ComboBoxItem Content="Hz" />
                         </ComboBox>
+                        <Button  Width="40" Height="35" Margin="312,182,0,0" Content="+" HorizontalAlignment="Left" VerticalAlignment="Top" Name="freqIncrement" Click="FreqIncrement_Click" />
+                        <Button  Width="40" Height="35" Margin="355,182,0,0" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Name="freqDecrement" Click="FreqDecrement_Click" />
+
+
                         <Button x:Name="uiRfOnOff" Width="285" Margin="248,16,0,0" Content="RF OFF" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86" Click="uiRfOnOffClick" FontSize="36" Background="Red" />
+                        <Label Content="FREQUENCY STEP" HorizontalAlignment="Left" Margin="80,218,0,0" VerticalAlignment="Top" Height="51" Width="142" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
+                        <Label Content="AMPLITUDE STEP (dB)" HorizontalAlignment="Left" Margin="425,218,0,0" VerticalAlignment="Top" Width="172" Height="51" FontWeight="Bold" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox Text="1" x:Name="uiRfFrequencyStep" Width="170" TextAlignment="Left" Margin="80,269,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" FontWeight="Bold" />
+                        <ComboBox  x:Name="uiRfFrequencyStepType" Margin="249,269,0,0" SelectedIndex="1" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63" HorizontalContentAlignment="Center" >
+                            <ComboBoxItem Content="GHz" />
+                            <ComboBoxItem Content="MHz" />
+                            <ComboBoxItem Content="KHz" />
+                            <ComboBoxItem Content="Hz" />
+                        </ComboBox>
+                        <TextBox Text="1" x:Name="uiRfAmplitudeStep" IsEnabled="True" IsReadOnly="False" Width="228"  TextAlignment="Left" Margin="425,269,0,0" Height="35" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" FontWeight="Bold" />
 
                     </Grid>
 
                 </TabItem>
 
-                <TabItem Header="MODULATION" Padding="5">
+                <TabItem Header="MODULATION" Padding="5" Name="tabModulation">
+
                     <Grid>
 
                         <Button Margin="10,19,0,0"  Content="OFF"        FontSize="48" x:Name="uiModOnOff" Click="uiModOnOff_Click" Background="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="75" />
@@ -144,9 +162,11 @@
                         </ComboBox>
 
                     </Grid>
+
                 </TabItem>
 
-                <TabItem Header="SWEEP" Padding="5">
+                <TabItem Header="SWEEP" Padding="5" Name="tabSweep">
+
                     <Grid>
                         <Grid.Resources>
                             <ResourceDictionary>
@@ -171,15 +191,15 @@
                         <Button x:Name="uiSweepExternal" Width="170" Margin="584,27,0,0" Content="EXTERNAL" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="24" Click="uiSweepExternal_Click" Background="LightGray" />
 
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="118,175,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStart" KeyDown="uiSweepStart_KeyDown" FontWeight="Bold" FontSize="16" />
-                        
-                        
+
+
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="122,260,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStep"  KeyDown="uiSweepStep_KeyDown" FontWeight="Bold" FontSize="16"  />
-                        
-                        
-                        
+
+
+
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="418,174,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepStop"  KeyDown="uiSweepStop_KeyDown" FontSize="16" FontWeight="Bold"  />
-                        
-                        
+
+
                         <Controls:NumericUpDown Width="170" TextAlignment="Left" Value="5" Margin="419,261,0,0" Height="40" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="uiSweepDwell" KeyDown="uiSweepDwell_KeyDown" FontSize="16" FontWeight="Bold" />
 
                         <ComboBox HorizontalAlignment="Left" Margin="286,175,0,0" VerticalAlignment="Top" Width="75" Height="40" HorizontalContentAlignment="Center" x:Name="uiSweepStartType"  SelectionChanged="uiSweepUnit_SelectionChanged" FontWeight="Bold" FontSize="16">
@@ -202,9 +222,11 @@
                         </ComboBox>
 
                     </Grid>
+
                 </TabItem>
 
-                <TabItem Header="REFERENCE" Padding="5">
+                <TabItem Header="REFERENCE" Padding="5" Name="tabReference">
+
                     <Grid>
                         <Label Content="REFERENCE" HorizontalAlignment="Left" Margin="277,10,0,0" VerticalAlignment="Top" Height="86" Width="187" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="24"/>
                         <Button x:Name="uiRefInternal" Width="215" Margin="161,112,0,0" Content="INTERNAL" HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefInternal_Click" Background="LightGray" />
@@ -212,9 +234,11 @@
                         <Button x:Name="uiRefTcxo"     Width="215" Margin="161,203,0,0" Content="TCXO"     HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefTcxo_Click" Background="LightGray"  />
                         <Button x:Name="uiRefOcxo"     Width="215" Margin="375,203,0,0" Content="OCXO"     HorizontalAlignment="Left" VerticalAlignment="Top" Height="86"  FontSize="36" Click="uiRefOcxo_Click" Background="Green" />
                     </Grid>
+
                 </TabItem>
 
-                <TabItem Header="DIAGNOSTICS" Padding="5">
+                <TabItem Header="DIAGNOSTICS" Padding="5" Name="tabDiagnostic">
+
                     <Grid>
                         <Button x:Name="uiTemperature" Width="381" Margin="54,12,0,0" Content="Temperature" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiTemperature_Click" />
                         <Button x:Name="uiPLLXtal" Width="381" Margin="54,57,0,0" Content="PLL Lock (Xtal)" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40"  FontSize="18" Click="uiPLLXtal_Click" />
@@ -226,14 +250,16 @@
 
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Serial Number : "         Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,136,0,0" Name="lblSerialNumber" />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Model : "                 Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,116,0,0" Name="lblModel"        />
-                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.1" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.2" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Embedded Version :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,176,0,0" Name="lblESP8266"     />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="ESP8266 Embedded Ver. :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,196,0,0" Name="lblEM"     />
 
                     </Grid>
+
                 </TabItem>
 
-                <TabItem Header="SETTINGS" Padding="5">
+                <TabItem Header="SETTINGS" Padding="5" Name="tabSettings">
+
                     <Grid>
                         <Label Content="Station SSID"     HorizontalAlignment="Left" Margin="60,10,0,0"  VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
                         <Label Content="Station Password" HorizontalAlignment="Left" Margin="31,45,0,0"  VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
@@ -260,9 +286,10 @@
                         <Button x:Name="uiHotspot" Width="181" Margin="187,255,0,0" Content="Hotspot" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiHotspot_Click" Background="Green" />
 
                     </Grid>
+
                 </TabItem>
 
-                <TabItem Header="DEBUG" Padding="5">
+                <TabItem Header="DEBUG" Padding="5" Name="tabDebug">
 
                     <Grid>
                         <TextBox TextWrapping="Wrap" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalAlignment="Left" Height="289" VerticalAlignment="Top" Width="720" Margin="23,29,0,-0.4" x:Name="debugPanel" />
