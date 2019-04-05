@@ -177,8 +177,7 @@ namespace Era.Synth.Control.Panel
                 {
                     giveError(ex);
                 }                
-            }           
-            
+            }                   
         }
         
         private void uiRfFrequency_KeyDown(object sender, KeyEventArgs e)
@@ -2107,6 +2106,28 @@ namespace Era.Synth.Control.Panel
 
                 // Index = 26 Default Gateway
                 uiDefaultGateway.Text = values[26].ToString();
+
+                // Avoid veersion confliction. This field added after words
+                try
+                {
+                    // Index = 28 Phase Noie Mode
+                    uiLowPhaseMode.Background = Brushes.LightGray;
+                    uiLowSpuriousMode.Background = Brushes.LightGray;
+
+                    if (values[28] == "0")
+                    {
+                        uiLowSpuriousMode.Background = Brushes.Green;
+                    }
+                    else if(values[28] == "1")
+                    {
+                        uiLowPhaseMode.Background = Brushes.Green;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
                 Thread.Sleep(50);
                 //uiRfFrequency.Value = Convert.ToUInt64(values[1]);
                 try { uiSweepStart.Value = Convert.ToUInt64(values[13]); } catch { }
@@ -2286,6 +2307,38 @@ namespace Era.Synth.Control.Panel
                     else if (tabDiagnostic.IsSelected) { uiDiagReadAll_Click(null, null); }
                     else { readAll(500); }
                 }
+            }
+        }
+
+        private void UiLowPhaseMode_Click(object sender, RoutedEventArgs e)
+        {
+            checkConnection();
+            Button btn = sender as Button;
+            try
+            {
+                Command.send(Command.PHASE_NOISE_MODE_ON);
+                btn.Background = Brushes.Green;
+                uiLowSpuriousMode.Background = Brushes.LightGray;
+            }
+            catch (Exception ex)
+            {
+                giveError(ex);
+            }
+        }
+
+        private void UiLowSpuriousMode_Click(object sender, RoutedEventArgs e)
+        {
+            checkConnection();
+            Button btn = sender as Button;
+            try
+            {
+                Command.send(Command.PHASE_NOISE_MODE_OFF);
+                btn.Background = Brushes.Green;
+                uiLowPhaseMode.Background = Brushes.LightGray;
+            }
+            catch (Exception ex)
+            {
+                giveError(ex);
             }
         }
     }

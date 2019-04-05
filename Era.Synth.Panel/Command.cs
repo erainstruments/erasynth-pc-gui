@@ -86,6 +86,10 @@ namespace Era.Synth.Control.Panel
         public static string WIFI_STATION = ">PEW0\r";
         public static string WIFI_HOTSPOT = ">PEW1\r";
 
+        public static string PHASE_NOISE_MODE_OFF= ">P90\r";
+        public static string PHASE_NOISE_MODE_ON = ">P91\r";
+
+
         static SerialPort port;
 
 
