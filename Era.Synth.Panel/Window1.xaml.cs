@@ -1780,7 +1780,7 @@ namespace Era.Synth.Control.Panel
                 uiEspOnOff.Content = "ESP8266 ON";
                 uiEspOnOff.Background = Brushes.Green;
 
-                readAll(200);
+                readAll(500);
             }
             catch (Exception ex)
             {
