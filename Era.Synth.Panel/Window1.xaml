@@ -251,7 +251,7 @@
 
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Serial Number : "         Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,136,0,0" Name="lblSerialNumber" />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Model : "                 Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,116,0,0" Name="lblModel"        />
-                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.4" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
+                        <TextBlock Height="20" TextWrapping="Wrap" Text="Software Version : v1.1.5" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,156,0,0" Name="lblSoftware"     />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="Embedded Version :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,176,0,0" Name="lblESP8266"     />
                         <TextBlock Height="20" TextWrapping="Wrap" Text="ESP8266 Embedded Ver. :" Width="274" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="453,196,0,0" Name="lblEM"     />
 
@@ -262,32 +262,38 @@
                 <TabItem Header="SETTINGS" Padding="5" Name="tabSettings">
 
                     <Grid>
-                        <Label Content="Station SSID"     HorizontalAlignment="Left" Margin="60,10,0,0"  VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <Label Content="Station Password" HorizontalAlignment="Left" Margin="31,45,0,0"  VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <Label Content="Hotspot SSID"     HorizontalAlignment="Left" Margin="26,80,0,0" VerticalAlignment="Top" Height="30" Width="131" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <Label Content="Hotspot Password" HorizontalAlignment="Left" Margin="4,115,0,0" VerticalAlignment="Top" Height="30" Width="153" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <Label Content="IP Address"       HorizontalAlignment="Left" Margin="60,150,0,0" VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <Label Content="Subnet Mask"      HorizontalAlignment="Left" Margin="31,185,0,0" VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <Label Content="Default Gateway"  HorizontalAlignment="Left" Margin="31,220,0,0" VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Station SSID"     HorizontalAlignment="Left" Margin="85,10,0,0"  VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Station Password" HorizontalAlignment="Left" Margin="56,45,0,0"  VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Hotspot SSID"     HorizontalAlignment="Left" Margin="51,80,0,0" VerticalAlignment="Top" Height="30" Width="131" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Hotspot Password" HorizontalAlignment="Left" Margin="29,115,0,0" VerticalAlignment="Top" Height="30" Width="153" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="IP Address"       HorizontalAlignment="Left" Margin="85,150,0,0" VerticalAlignment="Top" Height="30" Width="97"  FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Subnet Mask"      HorizontalAlignment="Left" Margin="56,185,0,0" VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Content="Default Gateway"  HorizontalAlignment="Left" Margin="56,220,0,0" VerticalAlignment="Top" Height="30" Width="126" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 
 
-                        <TextBox Margin="157,10,0,0"    Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiStationSSID" />
-                        <TextBox Margin="157,45,0,0"    Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiStationPass" />
-                        <TextBox Margin="157,80,0,0"    Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiHotspotSSID" />
-                        <TextBox Margin="157,115,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiHotspotPass" />
-                        <TextBox Margin="157,150,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiIPAdress" />
-                        <TextBox Margin="157,186,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiSubnetMask" />
-                        <TextBox Margin="157,220,0,0"   Width="193" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiDefaultGateway" />
+                        <TextBox Margin="187,10,0,0"    Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiStationSSID" />
+                        <TextBox Margin="187,45,0,0"    Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiStationPass" />
+                        <TextBox Margin="187,80,0,0"    Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiHotspotSSID" />
+                        <TextBox Margin="187,115,0,0"   Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiHotspotPass" />
+                        <TextBox Margin="187,150,0,0"   Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiIPAdress" />
+                        <TextBox Margin="187,186,0,0"   Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiSubnetMask" />
+                        <TextBox Margin="187,220,0,0"   Width="181" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiDefaultGateway" />
 
-                        <Button x:Name="uiLowPhaseMode" Width="165" Margin="411,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46" FontSize="14" Content="Low Phase Noise Mode" Click="UiLowPhaseMode_Click"  />
-                        <Button x:Name="uiLowSpuriousMode" Width="159" Margin="581,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46" FontSize="14" Content="Low Spurious Mode" Click="UiLowSpuriousMode_Click"  />
+                        <Button x:Name="uiLowPhaseMode" Width="165" Margin="577,115,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" Content="Low Phase Noise Mode" Click="UiLowPhaseMode_Click"  />
+                        <Button x:Name="uiLowSpuriousMode" Width="165" Margin="577,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" FontSize="14" Content="Low Spurious Mode" Click="UiLowSpuriousMode_Click"  />
 
-                        <Button x:Name="uiEspCodeMode" Width="330" Margin="411,172,0,0" Content="ESP8266 UART(UploadCode) Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiEspCodeMode_Click" />
-                        <Button x:Name="uiEspOnOff" Width="330" Margin="411,76,0,0" Content="ESP8266 ON" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiEspOnOff_Click" Background="Green" />
-                        <Button x:Name="uiFactoryReset" Width="330" Margin="411,124,0,0" Content="Factory Reset" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiFactoryReset_Click" />
+                        <Button x:Name="uiEspCodeMode" Width="330" Margin="412,80,0,0" Content="ESP8266 UART(UploadCode) Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30"  FontSize="15" Click="uiEspCodeMode_Click" />
+                        <Button x:Name="uiEspOnOff" Width="330" Margin="412,10,0,0" Content="ESP8266 ON" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30"  FontSize="15" Click="uiEspOnOff_Click" Background="Green" />
+                        <Button x:Name="uiFactoryReset" Width="330" Margin="412,45,0,0" Content="Factory Reset" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30"  FontSize="15" Click="uiFactoryReset_Click" />
                         <Button x:Name="uiSaveSettings" Width="366" Margin="2,306,0,0" Content="Apply Network Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiSaveSettings_Click" />
                         <Button x:Name="uiStation" Width="181" Margin="2,255,0,0" Content="Station" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiStation_Click"  Background="LightGray" />
                         <Button x:Name="uiHotspot" Width="181" Margin="187,255,0,0" Content="Hotspot" HorizontalAlignment="Left" VerticalAlignment="Top" Height="46"  FontSize="15" Click="uiHotspot_Click" Background="Green" />
+                        
+                        <Label Content="Phase Shift"  HorizontalAlignment="Left" Margin="412,115,0,0" VerticalAlignment="Top" Height="30" Width="88" FontSize="15" VerticalContentAlignment="Center" Name="lblPhaseShift" />
+                        <TextBox Margin="505,115,0,0"   Width="69" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="uiPhaseShift" PreviewKeyDown="uiPhaseShift_KeyDown"   />
+                        <TextBlock HorizontalAlignment="Left" Margin="412,150,0,0" VerticalAlignment="Top" Height="30" Width="160" FontSize="10" Name="lblPhaseLimit">Max available phase shift is</TextBlock>
+                        <TextBlock HorizontalAlignment="Left" Margin="412,167,0,0" VerticalAlignment="Top" Height="30" Width="160" FontWeight="Bold" Name="lblPhaseLimit2" >0 degree</TextBlock>
+
 
                     </Grid>
 

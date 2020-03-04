@@ -89,6 +89,9 @@ namespace Era.Synth.Control.Panel
         public static string PHASE_NOISE_MODE_OFF= ">P90\r";
         public static string PHASE_NOISE_MODE_ON = ">P91\r";
 
+        public static string PHASE_SHIFT = ">PS{0}\r";
+
+
 
         static SerialPort port;
 

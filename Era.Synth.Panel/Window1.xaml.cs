@@ -1641,6 +1641,31 @@ namespace Era.Synth.Control.Panel
 
         }
 
+        private void uiPhaseShift_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                checkConnection();
+
+                string phaseText = uiPhaseShift.Text;
+
+                uint phase = 0;
+
+                try
+                {
+                    phase = Convert.ToUInt16(phaseText);
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter proper numerical values. Phase can be only between 0 and 360");
+                    return;
+                }
+
+                try { Command.send(Command.PHASE_SHIFT, phase.ToString()); }
+                catch (Exception ex) { giveError(ex); }
+            }            
+        }
+
         #endregion
 
         #region Debug
@@ -2117,16 +2142,41 @@ namespace Era.Synth.Control.Panel
                     if (values[28] == "0")
                     {
                         uiLowSpuriousMode.Background = Brushes.Green;
+                        uiPhaseShift.Opacity = 0.5;
+                        uiPhaseShift.IsReadOnly = true;
+                        lblPhaseShift.Opacity = 0.5;
+                        lblPhaseLimit.Opacity = 0.5;
+                        lblPhaseLimit2.Opacity = 0.5;
                     }
                     else if(values[28] == "1")
                     {
                         uiLowPhaseMode.Background = Brushes.Green;
+                        uiPhaseShift.Opacity = 1;
+                        uiPhaseShift.IsReadOnly = false;
+                        lblPhaseShift.Opacity = 1;
+                        lblPhaseLimit.Opacity = 1;
+                        lblPhaseLimit2.Opacity = 1;
                     }
                 }
                 catch (Exception ex)
                 {
 
                 }
+
+
+                // Avoid veersion confliction. This field added after words
+                try
+                {
+                    // Index = 29 Max available phase shift amount
+                    uint phase = Convert.ToUInt16(values[29]);
+                    lblPhaseLimit2.Text = phase.ToString() + " degree";
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
 
                 Thread.Sleep(50);
                 //uiRfFrequency.Value = Convert.ToUInt64(values[1]);
@@ -2319,11 +2369,20 @@ namespace Era.Synth.Control.Panel
                 Command.send(Command.PHASE_NOISE_MODE_ON);
                 btn.Background = Brushes.Green;
                 uiLowSpuriousMode.Background = Brushes.LightGray;
+
+                uiPhaseShift.Opacity = 1;
+                uiPhaseShift.IsReadOnly = false;
+                lblPhaseShift.Opacity = 1;
+                lblPhaseLimit.Opacity = 1;
+                lblPhaseLimit2.Opacity = 1;
+                readAll(200);
+
             }
             catch (Exception ex)
             {
                 giveError(ex);
             }
+            
         }
 
         private void UiLowSpuriousMode_Click(object sender, RoutedEventArgs e)
@@ -2335,6 +2394,13 @@ namespace Era.Synth.Control.Panel
                 Command.send(Command.PHASE_NOISE_MODE_OFF);
                 btn.Background = Brushes.Green;
                 uiLowPhaseMode.Background = Brushes.LightGray;
+
+                uiPhaseShift.Opacity = 0.5;
+                uiPhaseShift.IsReadOnly = true;
+                lblPhaseShift.Opacity = 0.5;
+                lblPhaseLimit.Opacity = 0.5;
+                lblPhaseLimit2.Opacity = 0.5;
+                readAll(200);
             }
             catch (Exception ex)
             {
